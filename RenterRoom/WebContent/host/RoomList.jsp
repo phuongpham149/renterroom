@@ -1,3 +1,5 @@
+<%@page import="bean.Rooms"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/host/header.jsp" %>
@@ -42,21 +44,29 @@
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
+        		<%
+				  ArrayList<Rooms> list = (ArrayList<Rooms>)request.getAttribute("listRoom");
+				  for(Rooms  obj : list){
+				%>
         				<tr>
-        					<td>R1</td>
-        					<td>500 000 VND</td>
-        					<td>Rộng, thoáng mát</td>
+        					<td><%=obj.getIdRoom()%></td>
+        					<td><%=obj.getCost()%></td>
+        					<td><%=obj.getDescription()%></td>
         					<td>
-        						<input type="checkbox" name="abc" value="abc" checked=true>
+        					<% if (obj.getIsEmpty()==0){ %>
+        						<input type="checkbox" name="isEmpty" value="<%=obj.getIsEmpty()%>" > 
+        						<%} if (obj.getIsEmpty()==1) {%>
+        						<input type="checkbox" name="isEmpty" value="<%=obj.getIsEmpty()%>"  checked="true"> 
+        					<%} %>
         					</td>
-        					<td>Phòng trọ</td>
+        					<td><%=obj.getNameCategory()%></td>
         					<td>
         					<input type="hidden" id="hidden-idRoom" value="" />
         						<a class="btn btn-default" id="btn-update" href="Admin_RecordDetailView.php" data-toggle="modal" data-target="#myModalUpdate"><i class="fa fa-edit"></i></a>
         						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>
-        				
+        			<%} %>	
         			</tbody>
         		</table>
         	<div id="myModalUpdate" class="modal fade" role="dialog">

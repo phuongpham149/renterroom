@@ -20,7 +20,7 @@ public class RoomDao {
 			Rooms room;
 			while(rs.next()){
 				room = new Rooms(rs.getInt("idRoom"),rs.getInt("idUser"),rs.getInt("idCategory"),rs.getInt("cost"), rs.getString("description"),rs.getInt("isActive"),
-						rs.getString("timeCreated"),rs.getString("timeUpdate"), rs.getInt("isEmpty"),rs.getString("nameRoom"),rs.getString("image"),rs.getString("street"), rs.getString("district"));
+						rs.getString("timeCreated"),rs.getString("timeUpdate"), rs.getInt("isEmpty"),rs.getString("nameRoom"),rs.getString("image"),rs.getString("street"), rs.getString("district"),rs.getString("nameCategory"));
 				listRoom.add(room);
 			}
 		} catch (SQLException e) {
