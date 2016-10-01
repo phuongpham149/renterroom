@@ -29,5 +29,12 @@ public class RoomBo {
 		// TODO Auto-generated method stub
 		return roomDAO.editRoom(room);
 	}
-
+	public boolean editIsEmptyRoom(Rooms room) {
+		// TODO Auto-generated method stub
+		return roomDAO.editIsEmptyRoom(room);
+	}
+	public Rooms getIsEmpty(int idRoom) {
+		
+		return roomDAO.getIsEmpty(idRoom);
+	}
 }
