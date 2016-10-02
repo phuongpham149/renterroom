@@ -1,3 +1,5 @@
+<%@page import="bean.Booking"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/host/header.jsp" %>
@@ -39,20 +41,36 @@
         					<td>Ghi chú</td>
         					<td>Thời gian</td>
         					<td>Duyệt</td>
+        					<td></td>
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
+        		<%
+				ArrayList<Booking> list = (ArrayList<Booking>)request.getAttribute("listBooking");
+				for(Booking obj : list){
+				%>
         				<tr>
-        					<td>ABC</td>
-        					<td>123456</td>
-        					<td>ACV</td>
-        					<td>ACV</td>
-        					<td>2016/09/10</td>
+        					<td><%=obj.getName()%></td>
+        					<td><%=obj.getPhoneNumber() %></td>
+        					<td><%=obj.getAddress() %></td>
+        					<td><%=obj.getNote() %></td>
+        					<td><%=obj.getTimeCreated() %></td>
         					<td>
-        						<input type="checkbox" name="abc" value="abc" checked=true>
+        						<%
+        					if(obj.getIdStatus() ==2 ){%>
+        						<input type="checkbox" name="idStatus" value="<%=obj.getIdStatus()%>" disabled="disabled" > 
+        					<%}if(obj.getIdStatus() == 1){%>
+        					    <input type="checkbox" name="idStatus" value="<%=obj.getIdStatus()%>"  checked="true" disabled="disabled"> 
+        				    <%}
+        					%>
+        					</td>
+        						<td>
+        						<button value="<%= obj.getIdBooking() %>" class="btn btn-default btn-update" id="btn-update<%= obj.getIdBooking()%>" data-toggle="modal" data-target="#myModalUpdate"><i class="fa fa-edit"></i> 
+      						    </button> 
+        						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>
-        				
+        				 <%} %>
         			</tbody>
         		</table>
         	<div id="myModal" class="modal fade" role="dialog">
