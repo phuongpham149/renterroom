@@ -1,9 +1,7 @@
 package action;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +12,16 @@ import bean.Rooms;
 import bo.RoomBo;
 
 /**
- * Servlet implementation class RoomListAction
+ * Servlet implementation class RoomUpdateAction
  */
-@WebServlet("/RoomListAction")
-public class RoomListAction extends HttpServlet {
+@WebServlet("/RoomUpdateAction")
+public class RoomUpdateAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public RoomListAction() {
+	public RoomUpdateAction() {
 		super();
 	}
 
@@ -37,7 +35,7 @@ public class RoomListAction extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServv letResponse
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request,
@@ -46,13 +44,19 @@ public class RoomListAction extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 
-		RoomBo list = new RoomBo();
-		ArrayList<Rooms> listRoom = list.getListRoom();
+		int id = Integer.parseInt(request.getParameter("idRoom"));
 
-		request.setAttribute("listRoom", listRoom);
-		RequestDispatcher rd = request
-				.getRequestDispatcher("host/RoomList.jsp");
-		rd.forward(request, response);
+		System.out.println("Update: " + id);
+		RoomBo roomBo = new RoomBo();
+		Rooms objRoom = new Rooms();
+		objRoom.setIdRoom(id);
+
+		int isEmpty = roomBo.getIsEmpty(id).getIsEmpty();
+		objRoom.setIsEmpty(isEmpty == 1 ? 0 : 1);
+
+		roomBo.editIsEmptyRoom(objRoom);
+
+		response.sendRedirect(request.getContextPath() + "/RoomListAction");
 	}
 
 }
