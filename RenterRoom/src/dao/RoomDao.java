@@ -127,6 +127,35 @@ public class RoomDao {
 			return false;
 		}
 	}
-	
+	public boolean editIsEmptyRoom(Rooms room) {
+		String query = "UPDATE rooms set  isEmpty=" + room.getIsEmpty()
+				+ " where idRoom= " + room.getIdRoom() + "; ";
+		System.out.println(query);
+
+		try {
+			Statement pstm = db.connectDB().createStatement();
+			pstm.executeUpdate(query);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public Rooms getIsEmpty(int idRoom){
+		String query = "SELECT isEmpty FROM rooms where idRoom = " + idRoom ;
+		Rooms room = null;
+		try {
+			Statement stm = db.connectDB().createStatement();
+			ResultSet rs = stm.executeQuery(query);
+
+			while (rs.next()) {
+				room = new Rooms();
+				room.setIsEmpty(rs.getInt("isEmpty"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return room;		
+	}
 
 }
