@@ -61,8 +61,7 @@
         					</td>
         					<td><%=obj.getNameCategory()%></td>
         					<td>
-        					<input type="hidden" id="hidden-idRoom" value="" />
-        						<a class="btn btn-default" id="btn-update" href="Admin_RecordDetailView.php" data-toggle="modal" data-target="#myModalUpdate"><i class="fa fa-edit"></i></a>
+        						<button value="<%= obj.getIdRoom() %>" class="btn btn-default btn-update" id="btn-update<%= obj.getIdRoom() %>" data-toggle="modal" data-target="#myModalUpdate"><i class="fa fa-edit"></i> 
         						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>
@@ -75,7 +74,7 @@
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form id="form-xoa" action="" method="post">
+					<form id="form-xoa" action="<%=request.getContextPath()%>/RoomUpdateAction" method="post">
 						<input id="modal-hidden-idRoom" type="hidden" value="" name="idRoom" />
 						<div class="modal-header">
 							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
@@ -91,17 +90,13 @@
 					</form>
 				</div>
 			</div>
-			<script type="text/javascript">
-				$(document).ready(function() {
-					// lay ma dot dang ky	
-					$('#tbl-body' ).on('click', 'button#btn-update', function() {
-						// lay ma dot dang ky
-						var idRoom = $(this).siblings('input#hidden-idRoom').val();  
-						// set ma vao modal
-						$('#modal-hidden-idRoom').val(idRoom);
-					});
-				});
-			</script>
+	<script type="text/javascript">
+		$(".btn-update").click(function () {
+			var idRoom = $(this).attr("value");
+			console.log(idRoom);
+			$('#modal-hidden-idRoom').val(idRoom);
+		});
+		</script>
 			</div>
         	<div id="myModal" class="modal fade" role="dialog">
 
@@ -154,28 +149,12 @@
 					});
 				});
 		</script>
-		<!--lay ma de xoa -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-				// lay ma dot dang ky	
-				$('#tbl-body' ).on('click', 'button#btn-xoa', function() {
-					// lay ma dot dang ky
-					var idRoom = $(this).siblings('input#hidden-idRoom').val();  
-					// set ma vao modal
-					$('#modal-hidden-idRoom').val(idRoom);
-				});
-			});
-		</script>
-		
-        
-		
+		<!--lay ma de xoa -->		
 		<!--End Content-->
 	</div>
 	</div>
 
 <!--End Container-->
-
-
 <!-- datatable -->
 <script src="<%=request.getContextPath() %>/templates/admin/datatable/js/jquery.dataTables.min.js"></script>
 <script src="<%=request.getContextPath() %>/templates/admin/datatable-bootstrap/js/dataTables.bootstrap.min.js"></script>
