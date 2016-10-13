@@ -29,5 +29,14 @@ public class RoomBo {
 		// TODO Auto-generated method stub
 		return roomDAO.editRoom(room);
 	}
+	
+	public Rooms getIsActiveByIdRoom(int idRoom ) {
+		// TODO Auto-generated method stub
+		return roomDAO.getIsActiveByIdRoom(idRoom);
+	}
+	public int updateActiveRoom(Rooms room) {
+		// TODO Auto-generated method stub
+		return roomDAO.updateActiveRoom(room);
+	}
 
 }

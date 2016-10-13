@@ -1,3 +1,5 @@
+<%@page import="bean.Rooms"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/admin/header.jsp" %>
@@ -26,10 +28,19 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Danh sách phòng trọ</h1>
             </div>
+            
             <!-- /.col-lg-12  -->
         	</div>
 			 <div class="row">
         	<div class="col-lg-12">
+        		<%
+		        if("1".equals(request.getParameter("msg"))){
+		  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
+		  	  	}
+	            if("0".equals(request.getParameter("msg"))){
+	  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
+	  	  	  	}
+		        %>
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
@@ -42,21 +53,33 @@
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
+        				<%
+        				ArrayList<Rooms> roomList = (ArrayList<Rooms>)request.getAttribute("roomList");
+        				for (Rooms room : roomList){
+        				%>
         				<tr>
-        					<td>R1</td>
-        					<td>500 000 VND</td>
-        					<td>Rộng, thoáng mát</td>
-        					<td>Nguyễn Văn A</td>
+        					<td>R<%=room.getIdRoom() %></td>
+        					<td><%=room.getCost() %></td>
+        					<td><%=room.getDescription() %></td>
+        					<td><%=room.getNameRoom()%></td>
         					<td>
-        						<input type="checkbox" name="abc" value="abc" checked=true>
+        						<%
+        							if(room.getIsActive()==1){
+        						%>
+        						<input type="checkbox" name="abc" value="<%=room.getIsActive()%>" checked=true>
+        						<% } else { %>
+        						<input type="checkbox" name="abc" value="<%=room.getIsActive()%>">
+        						<%} %>
         					</td>
         					<td>
-        					<input type="hidden" id="hidden-idRoom" value="" />
-        						<a class="btn btn-default" href="Admin_RecordDetailView.php"><i class="fa fa-edit"></i></a>
-        						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
+        						<%
+        							
+        						%>
+        						<a value="<%=room.getIdRoom()%>" class="btn btn-default btn-update"   href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a>
+        						<button type="button"  class="btn btn-danger" ><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>
-        				
+        			<%} %>
         			</tbody>
         		</table>
         	<div id="myModal" class="modal fade" role="dialog">
@@ -65,17 +88,17 @@
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form id="form-xoa" action="" method="post">
+					<form id="form-xoa" action="<%=request.getContextPath()%>/RoomUpdateAction" method="post">
 						<input id="modal-hidden-idRoom" type="hidden" value="" name="idRoom" />
 						<div class="modal-header">
 							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
-							<h3>Xóa</h3>
+							<h3>Xác nhận</h3>
 						</div>
 						<div class="modal-body">
-							<p>Bạn có chắc chắn muốn xóa thông tin này?</p>
+							<p>Bạn có chắc chắn muốn xác nhận duyệt tình trạng phòng?</p>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" id="btnYes" class="btn btn-danger">Có</button>
+							<button type="submit" id="btnYes" class="btn btn-danger" onclick="getIdRoom()">Có</button>
 							<button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-secondary">Không</button>
 						</div>
 					</form>
@@ -111,19 +134,21 @@
 		</script>
 		<!--lay ma de xoa -->
 		<script type="text/javascript">
-			$(document).ready(function() {
-				// lay ma dot dang ky	
-				$('#tbl-body' ).on('click', 'button#btn-xoa', function() {
-					// lay ma dot dang ky
-					var idRoom = $(this).siblings('input#hidden-idRoom').val();  
-					// set ma vao modal
-					$('#modal-hidden-idRoom').val(idRoom);
-				});
+			/* function getIdRoomForUpdate(){
+				console.log("vo day roi");
+				var idRoom = document.getElementById("idRoom-for-Update").value;
+				console.log("id room :"+idRoom);
+				$('#modal-hidden-idRoom').val(idRoom);
+			} */
+			
+			$(".btn-update").click(function () {
+				var idRoom = $(this).attr("value");
+				console.log(idRoom);
+				$('#modal-hidden-idRoom').val(idRoom);
 			});
+			
+			
 		</script>
-		
-        
-		
 		<!--End Content-->
 	</div>
 	</div>

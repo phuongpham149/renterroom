@@ -128,5 +128,35 @@ public class RoomDao {
 		}
 	}
 	
-
+	public Rooms getIsActiveByIdRoom(int idRoom) {
+		String query = "SELECT isActive FROM rooms WHERE idRoom = "+idRoom;
+		Rooms room = null;
+		try {
+			Statement stm = db.connectDB().createStatement();
+			ResultSet rs = stm.executeQuery(query);
+			
+			while(rs.next()){
+				room = new Rooms();
+				room.setIsActive(rs.getInt("isActive"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return room;
+	}
+	public int updateActiveRoom(Rooms room) {
+		String query = "UPDATE rooms set isActive = "+room.getIsActive()+" where idRoom = "+room.getIdRoom();
+		
+		int check=0;
+		try {
+			Statement pstm = db.connectDB().createStatement();
+			check = pstm.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return check;
+	}
 }
