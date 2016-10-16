@@ -132,16 +132,9 @@
 		</script>
 		<!--lay ma de xoa -->
 		<script type="text/javascript">
-			/* function getIdRoomForUpdate(){
-				console.log("vo day roi");
-				var idRoom = document.getElementById("idRoom-for-Update").value;
-				console.log("id room :"+idRoom);
-				$('#modal-hidden-idRoom').val(idRoom);
-			} */
 			
 			$(".btn-update").click(function () {
 				var idRoom = $(this).attr("value");
-				console.log(idRoom);
 				$('#modal-hidden-idRoom').val(idRoom);
 			});
 			
