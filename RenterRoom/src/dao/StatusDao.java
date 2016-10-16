@@ -1,107 +1,104 @@
 package dao;
 
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import bean.Category;
 import bean.Status;
 
 public class StatusDao {
+	private Connection con = null;
+	private CallableStatement cstmt = null;
+	private ResultSet rs = null;
+
+	private ArrayList<Status> statuses = null;
+	private Status status = null;
 	Database db = new Database();
+
 	public ArrayList<Status> getListStatus() {
-		ArrayList<Status> listStatus = new ArrayList<Status>();
-		String query = "SELECT idStatus,nameStatus from status ";
+
+		statuses = new ArrayList<Status>();
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			Status status;
-			while(rs.next()){
-				status = new Status(rs.getInt("idStatus"),rs.getString("nameStatus"));
-				listStatus.add(status);
+			con = Database.connectDB();
+			String query = "{CALL getListStatus()}";
+			cstmt = con.prepareCall(query);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				status = new Status(rs.getInt("idStatus"),
+						rs.getString("nameStatus"));
+				statuses.add(status);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		
-		return listStatus;
-	}
-	public boolean addStatus(String nameStatus) {
-		String query = "INSERT INTO status(nameStatus) VALUES (?)";
-		int check=0;
-		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setString(1, nameStatus);
-			check=pstm.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
-		
-	}
-	public boolean delStatus(int id) {
-		// TODO Auto-generated method stub
-		String query = "delete from status where idStatus=?";
-		int check=0;
-		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, id);
-			check=pstm.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	public Status getStatusDetail(int idStatus) {
-		String query = "SELECT idStatus,nameStatus from status where idStatus = "+idStatus;
-		Status status = null;
-		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			
-			while(rs.next()){
-				status = new Status(rs.getInt("idStatus"),rs.getString("nameStatus"));
-				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return status;
-	}
-	public boolean editStatus(Status status) {
-        String query = "UPDATE status set nameStatus= '"+status.getNameStatus()+"' where idStatus= "+status.getIdStatus();
-		
-		int check=0;
-		try {
-			Statement pstm = db.connectDB().createStatement();
-			check = pstm.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return statuses;
 	}
 
+	public boolean addStatus(String nameStatus) {
+
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL addStatus(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setString(1, nameStatus);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+
+		if (result > 0)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean delStatus(int idStatus) {
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL delStatus(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idStatus);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		if (result > 0)
+			return true;
+		else
+			return false;
+	}
+
+	public Status getStatusDetail(int idStatus) {
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getStatusDetail(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idStatus);
+			rs = cstmt.executeQuery();
+			if (rs.next()) {
+				status = new Status(rs.getInt("idStatus"),
+						rs.getString("nameStatus"));
+			}
+		} catch (SQLException e) {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		return status;
+
+	}
 }

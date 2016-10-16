@@ -1,178 +1,176 @@
 package dao;
 
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import bean.Rooms;
-import bean.Users;
 
 public class RoomDao {
+	private Connection con = null;
+	private CallableStatement cstmt = null;
+	private ResultSet rs = null;
+
+	private ArrayList<Rooms> rooms = null;
+	private Rooms room = null;
 	Database db = new Database();
 
 	public ArrayList<Rooms> getListRoom() {
-		ArrayList<Rooms> listRoom = new ArrayList<Rooms>();
-		String query = "SELECT idRoom, idUser,category.idCategory,nameCategory,cost,description,isActive,timeCreated, timeUpdate,isEmpty, nameRoom, image, street, district from rooms, category where category.idCategory = rooms.idCategory ";
+
+		rooms = new ArrayList<Rooms>();
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			Rooms room;
+			con = Database.connectDB();
+			String query = "{CALL getListRoom()}";
+			cstmt = con.prepareCall(query);
+			rs = cstmt.executeQuery();
 			while (rs.next()) {
 				room = new Rooms(rs.getInt("idRoom"), rs.getInt("idUser"),
 						rs.getInt("idCategory"), rs.getInt("cost"),
 						rs.getString("description"), rs.getInt("isActive"),
-						rs.getString("timeCreated"),
-						rs.getString("timeUpdate"), rs.getInt("isEmpty"),
-						rs.getString("nameRoom"), rs.getString("image"),
-						rs.getString("street"), rs.getString("district"),
-						rs.getString("nameCategory"));
-				listRoom.add(room);
+						rs.getDate("timeCreated"), rs.getDate("timeUpdate"),
+						rs.getInt("isEmpty"), rs.getString("nameRoom"),
+						rs.getString("image"), rs.getString("street"),
+						rs.getString("district"), rs.getString("nameCategory"));
+				rooms.add(room);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-
-		return listRoom;
+		return rooms;
 	}
 
-	public boolean addRoom(Rooms room) {
-		String query = "INSERT INTO rooms( idUser, idCategory, cost,  description,isActive,timeCreated, timeUpdate, isEmpty, nameRoom, image,street,district) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-		int check = 0;
+	public boolean addRoom(int idUser, int idCategory, int cost,
+			String description, int isActive, Date timeCreated,
+			Date timeUpdate, int isEmpty, String nameRoom, String image,
+			String street, String district) {
+
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, room.getIdUser());
-			pstm.setInt(2, room.getIdCategory());
-			pstm.setInt(3, room.getCost());
-			pstm.setString(4, room.getDescription());
-			pstm.setInt(5, room.getIsActive());
-			pstm.setString(6, room.getTimeCreated());
-			pstm.setString(7, room.getTimeUpdate());
-			pstm.setInt(8, room.getIsEmpty());
-			pstm.setString(9, room.getNameRoom());
-			pstm.setString(10, room.getImage());
-			pstm.setString(11, room.getStreet());
-			pstm.setString(12, room.getDistrict());
-			check = pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL addRoom(?,?,?,?,?,?,?,?,?,?,?,?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idUser);
+			cstmt.setInt(2, idCategory);
+			cstmt.setInt(3, cost);
+			cstmt.setString(4, description);
+			cstmt.setInt(5, isActive);
+			cstmt.setDate(6, timeCreated);
+			cstmt.setDate(7, timeUpdate);
+			cstmt.setInt(8, isEmpty);
+			cstmt.setString(9, nameRoom);
+			cstmt.setString(10, image);
+			cstmt.setString(11, street);
+			cstmt.setString(12, district);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		if (check > 0) {
-			return true;
-		} else {
-			return false;
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
 
+		if (result > 0)
+			return true;
+		else
+			return false;
 	}
 
-	public boolean delRoom(int id) {
-		// TODO Auto-generated method stub
-		String query = "delete FROM rooms WHERE idRoom=?";
-		int check = 0;
+	public boolean delRoom(int idRoom) {
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, id);
-			check = pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL delRoom(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idRoom);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		if (check > 0) {
+
+		if (result > 0)
 			return true;
-		} else {
+		else
 			return false;
-		}
 	}
 
 	public Rooms getRoomDetail(int idRoom) {
-		String query = "SELECT idRoom,idUser,idCategory,cost,description,isActive, timeCreated, timeUpdate,isEmpty,nameRoom,image,street,district from rooms where idRoom = "
-				+ idRoom;
-		Rooms room = null;
-		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
 
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getRoomDetail(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idRoom);
+			rs = cstmt.executeQuery();
 			while (rs.next()) {
 				room = new Rooms(rs.getInt("idRoom"), rs.getInt("idUser"),
 						rs.getInt("idCategory"), rs.getInt("cost"),
 						rs.getString("description"), rs.getInt("isActive"),
-						rs.getString("timeCreated"),
-						rs.getString("timeUpdate"), rs.getInt("isEmpty"),
-						rs.getString("nameRoom"), rs.getString("image"),
-						rs.getString("street"), rs.getString("district"));
-
+						rs.getDate("timeCreated"), rs.getDate("timeUpdate"),
+						rs.getInt("isEmpty"), rs.getString("nameRoom"),
+						rs.getString("image"), rs.getString("street"),
+						rs.getString("district"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
+
 		return room;
 	}
 
-	public boolean editRoom(Rooms room) {
-		String query = "UPDATE rooms set idUser= '" + room.getIdUser() + "'"
-				+ ",idCategory = '" + room.getIdCategory() + "'" + ", cost = '"
-				+ room.getCost() + "'" + ", description = '"
-				+ room.getDescription() + "'" + ", isActive = '"
-				+ room.getIsActive() + "'" + ", timeCreated = '"
-				+ room.getTimeCreated() + "'" + ", timeUpdate = '"
-				+ room.getTimeUpdate() + "'" + ", isEmpty = '"
-				+ room.getIsActive() + "'" + ", nameRoom = '"
-				+ room.getNameRoom() + "'" + ", image = '" + room.getImage()
-				+ "'" + ", street = '" + room.getStreet() + "'"
-				+ ", district = '" + room.getDistrict() + "' where idRoom= "
-				+ room.getIdRoom();
+	public boolean editIsEmptyRoom(int isEmpty, int idRoom) {
 
-		int check = 0;
+		int result = 0;
 		try {
-			Statement pstm = db.connectDB().createStatement();
-			check = pstm.executeUpdate(query);
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (check > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean editIsEmptyRoom(Rooms room) {
-		String query = "UPDATE rooms set  isEmpty=" + room.getIsEmpty()
-				+ " where idRoom= " + room.getIdRoom() + "; ";
-		System.out.println(query);
-
-		try {
-			Statement pstm = db.connectDB().createStatement();
-			pstm.executeUpdate(query);
-			return true;
+			con = Database.connectDB();
+			String query = "{CALL editIsEmptyRoom(?,?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, isEmpty);
+			cstmt.setInt(2, idRoom);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
+		if (result > 0)
+			return true;
+		else
+			return false;
 	}
 
 	public Rooms getIsEmpty(int idRoom) {
-		String query = "SELECT isEmpty FROM rooms where idRoom = " + idRoom;
-		Rooms room = null;
-		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
 
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getIsEmpty(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idRoom);
+			rs = cstmt.executeQuery();
 			while (rs.next()) {
 				room = new Rooms();
 				room.setIsEmpty(rs.getInt("isEmpty"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		return room;
 
+		return room;
 	}
 
 }

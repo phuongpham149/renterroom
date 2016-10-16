@@ -1,114 +1,110 @@
 package dao;
 
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import bean.Category;
 import bean.Contact;
 
 public class ContactDao {
+	private Connection con = null;
+	private CallableStatement cstmt = null;
+	private ResultSet rs = null;
+
+	private ArrayList<Contact> contacts = null;
+	private Contact contact = null;
 	Database db = new Database();
+
 	public ArrayList<Contact> getListContact() {
-		ArrayList<Contact> listContact = new ArrayList<Contact>();
-		String query = "SELECT idContact,nameContact,email, phoneNumber, content  FROM contact ";
+		contacts = new ArrayList<Contact>();
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			Contact contact;
-			while(rs.next()){
-				contact=  new Contact(rs.getInt("idContact"),rs.getString("nameContact"),rs.getString("email"),rs.getString("phoneNumber"),rs.getString("content"));
-				listContact.add(contact);
+			con = Database.connectDB();
+			String query = "{CALL getListContact()}";
+			cstmt = con.prepareCall(query);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				contact = new Contact(rs.getInt("idContact"),
+						rs.getString("nameContact"), rs.getString("email"),
+						rs.getString("phoneNumber"), rs.getString("content"));
+				contacts.add(contact);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		
-		return listContact;
-	}
-	public boolean addContact(Contact contact ) {
-		String query = "INSERT INTO contact(nameContact, email, phoneNumber, content) VALUES (?,?,?,?)";
-		int check=0;
-		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setString(1, contact.getNameContact());
-			pstm.setString(2, contact.getEmail());
-			pstm.setString(3, contact.getPhoneNumber());
-			pstm.setString(4, contact.getContent());
-			check=pstm.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
-		
-	}
-	public boolean delContact(int id) {
-		// TODO Auto-generated method stub
-		String query = "DELETE FROM contact WHERE idContact=?";
-		int check=0;
-		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, id);
-			check=pstm.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	public Contact getContactDetail(int idContact) {
-		String query = "SELECT idContact,nameContact, email, phoneNumber, content FROM contact WHERE idContact = "+idContact;
-		Contact contact = null;
-		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			
-			while(rs.next()){
-				contact = new Contact(rs.getInt("idContact"),rs.getString("nameContact"),rs.getString("email"),rs.getString("phoneNumber"),rs.getString("content"));
-				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return contact;
-	}
-	public boolean editContact(Contact contact) {
-        String query = "UPDATE contact SET nameContact= '"+contact.getNameContact()+"'"
-        		+ ", email = '"+contact.getEmail()+"'"
-        		+ ", phoneNumber = '"+contact.getPhoneNumber()+"'"
-        		+ ", content = '"+contact.getContent()+"' WHERE idContact= "+contact.getIdContact();
-		
-		int check=0;
-		try {
-			Statement pstm = db.connectDB().createStatement();
-			check = pstm.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return contacts;
 	}
 
+	public boolean addContact(String nameContact, String email,
+			String phoneNumber, String Content) {
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL addContact(?,?,?,?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setString(1, nameContact);
+			cstmt.setString(2, email);
+			cstmt.setString(3, phoneNumber);
+			cstmt.setString(4, Content);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+
+		if (result > 0)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean delContact(int idContact) {
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL delContact(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idContact);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+
+		if (result > 0)
+			return true;
+		else
+			return false;
+	}
+
+	public Contact getContactDetail(int idContact) {
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getContactDetail(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idContact);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				contact = new Contact(rs.getInt("idContact"),
+						rs.getString("nameContact"), rs.getString("email"),
+						rs.getString("phoneNumber"), rs.getString("content"));
+			}
+		} catch (SQLException e) {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+
+		return contact;
+	}
 
 }
