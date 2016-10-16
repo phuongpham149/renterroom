@@ -54,7 +54,7 @@ public class RoomUpdateAction extends HttpServlet {
 		int isEmpty = roomBo.getIsEmpty(id).getIsEmpty();
 		objRoom.setIsEmpty(isEmpty == 1 ? 0 : 1);
 
-		roomBo.editIsEmptyRoom(objRoom);
+		roomBo.editIsEmptyRoom(isEmpty,id);
 
 		response.sendRedirect(request.getContextPath() + "/RoomListAction");
 	}

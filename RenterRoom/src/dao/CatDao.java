@@ -1,106 +1,103 @@
 package dao;
 
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import bean.Category;
 
 public class CatDao {
-	Database db = new Database();
+	private Connection con = null;
+	private CallableStatement cstmt = null;
+	private ResultSet rs = null;
+
+	private ArrayList<Category> categorys = null;
+	private Category category = null;
+
 	public ArrayList<Category> getListCat() {
-		ArrayList<Category> listCat = new ArrayList<Category>();
-		String query = "SELECT idCategory,nameCategory from category ";
+		categorys = new ArrayList<Category>();
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			Category cat;
-			while(rs.next()){
-				cat = new Category(rs.getInt("idCategory"),rs.getString("nameCategory"));
-				listCat.add(cat);
+			con = Database.connectDB();
+			String query = "{CALL getListCat()}";
+			cstmt = con.prepareCall(query);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				category = new Category(rs.getInt("idCategory"),
+						rs.getString("nameCategory"));
+				categorys.add(category);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		
-		return listCat;
+		return categorys;
 	}
+
 	public boolean addCat(String nameCategory) {
-		String query = "INSERT INTO category(nameCategory) VALUES (?)";
-		int check=0;
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setString(1, nameCategory);
-			check=pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL addCat(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setString(1, nameCategory);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		if(check>0){
+
+		if (result > 0)
 			return true;
-		}
-		else{
+		else
 			return false;
-		}
-		
 	}
-	public boolean delCat(int id) {
-		// TODO Auto-generated method stub
-		String query = "DELETE FROM category WHERE idCategory=?";
-		int check=0;
+
+	public boolean delCat(int idCat) {
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, id);
-			check=pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL delCat(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idCat);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		if(check>0){
+
+		if (result > 0)
 			return true;
-		}
-		else{
+		else
 			return false;
-		}
 	}
+
 	public Category getCatDetail(int idCat) {
-		String query = "SELECT idCategory,nameCategory FROM category WHERE idCategory = "+idCat;
-		Category cat = null;
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			
-			while(rs.next()){
-				cat = new Category(rs.getInt("idCategory"),rs.getString("nameCategory"));
-				
+			con = Database.connectDB();
+			String query = "{CALL getCatDetail(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idCat);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				category = new Category(rs.getInt("idCategory"),
+						rs.getString("nameCategory"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		return cat;
-	}
-	public boolean editCat(Category cat) {
-        String query = "UPDATE category SET nameCategory= '"+cat.getNameCategory()+"' WHERE idCategory= "+cat.getIdCategory();
-		
-		int check=0;
-		try {
-			Statement pstm = db.connectDB().createStatement();
-			check = pstm.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
+
+		return category;
 	}
 
 }

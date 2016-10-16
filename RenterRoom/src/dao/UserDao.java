@@ -1,120 +1,117 @@
 package dao;
 
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import bean.Category;
 import bean.Users;
 
 public class UserDao {
+	private Connection con = null;
+	private CallableStatement cstmt = null;
+	private ResultSet rs = null;
+
+	private ArrayList<Users> users = null;
+	private Users user = null;
 	Database db = new Database();
+
 	public ArrayList<Users> getListUser() {
-		ArrayList<Users> listUser = new ArrayList<Users>();
-		String query = "SELECT idUser,username, password, phoneNumber, role,email, address from users ";
+
+		users = new ArrayList<Users>();
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			Users user;
-			while(rs.next()){
-				user = new Users(rs.getInt("idUser"),rs.getString("username"), rs.getString("password"),
-						rs.getString("phoneNumber"), rs.getInt("role"), rs.getString("email"), rs.getString("address"));
-				listUser.add(user);
+			con = Database.connectDB();
+			String query = "{CALL getListUser()}";
+			cstmt = con.prepareCall(query);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				user = new Users(rs.getInt("idUser"), rs.getString("username"),
+						rs.getString("password"), rs.getString("phoneNumber"),
+						rs.getInt("role"), rs.getString("email"),
+						rs.getString("address"));
+				users.add(user);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		
-		return listUser;
+		return users;
 	}
-	public boolean addUser(Users users) {
-		String query = "INSERT INTO users(username, password,phoneNumber, role, email, address) VALUES (?,?,?,?,?,?)";
-		int check=0;
+
+	public boolean addUser(String username, String password,
+			String phoneNumber, int role, String email, String address) {
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setString(1, users.getUsername());
-			pstm.setString(2, users.getPassword());
-			pstm.setString(3, users.getPhoneNumber());
-			pstm.setInt(4, users.getRole());
-			pstm.setString(5, users.getEmail());
-			pstm.setString(6, users.getAddress());
-			check=pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL addUser(?,?,?,?,?,?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setString(1, username);
+			cstmt.setString(2, password);
+			cstmt.setString(3, phoneNumber);
+			cstmt.setInt(4, role);
+			cstmt.setString(5, email);
+			cstmt.setString(6, address);
+
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		if(check>0){
+
+		if (result > 0)
 			return true;
-		}
-		else{
+		else
 			return false;
-		}
-		
 	}
-	public boolean delUser(int id) {
-		// TODO Auto-generated method stub
-		String query = "delete from users where idUser=?";
-		int check=0;
+
+	public boolean delUser(int idUser) {
+
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, id);
-			check=pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL delUser(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idUser);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		if(check>0){
+
+		if (result > 0)
 			return true;
-		}
-		else{
+		else
 			return false;
-		}
 	}
+
 	public Users getUserDetail(int idUser) {
-		String query = "SELECT idUser,username, password, phoneNumber, role, email, address from users where idUser = "+idUser;
-		Users user = null;
+
+		users = new ArrayList<Users>();
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			
-			while(rs.next()){
-				user = new Users(rs.getInt("idUser"),rs.getString("username"), rs.getString("password"),
-						rs.getString("phoneNumber"), rs.getInt("role"), rs.getString("email"), rs.getString("address"));
-				
+			con = Database.connectDB();
+			String query = "{CALL getUserDetail(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idUser);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				user = new Users(rs.getInt("idUser"), rs.getString("username"),
+						rs.getString("password"), rs.getString("phoneNumber"),
+						rs.getInt("role"), rs.getString("email"),
+						rs.getString("address"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
 		return user;
 	}
-	public boolean editUser(Users user) {
-        String query = "UPDATE users set username= '"+user.getUsername()+"'"
-        		+ ",password = '"+user.getPassword()+"'"
-        		+ ", phoneNumber = '"+user.getPhoneNumber()+"'"
-        		+ ", role = '"+user.getRole()+"'"
-        		+ ", email = '"+user.getEmail()+"'"
-        		+ ", address = '"+user.getAddress()+"' where idUser= "+user.getIdUser();
-		
-		int check=0;
-		try {
-			Statement pstm = db.connectDB().createStatement();
-			check = pstm.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
-
 }
