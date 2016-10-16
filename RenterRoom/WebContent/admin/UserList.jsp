@@ -1,3 +1,4 @@
+<%@page import="bean.Users"%>
 <%@page import="bean.Rooms"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -16,7 +17,7 @@
 						<a href="index.html">Trang chủ</a>
 					</li>
 					<li>
-						<a href="#">Phòng Trọ</a>
+						<a href="#">Chủ Trọ</a>
 					</li>
 				</ol>
 				</div>
@@ -24,7 +25,7 @@
 			</div>
 			<div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Danh sách phòng trọ</h1>
+                <h1 class="page-header">Danh sách chủ trọ</h1>
             </div>
             
             <!-- /.col-lg-12  -->
@@ -42,39 +43,34 @@
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
-        					<td>Mã phòng</td>
-        					<td>Giá tiền</td>
-        					<td>Mô tả</td>
-        					<td>Chủ trọ</td>
-        					<td>Duyệt</td>
+        					<td>Họ tên</td>
+        					<td>Số điện thoại</td>
+        					<td>Địa chỉ</td>
+        					<td>Email</td>
+        					<td>Chức năng</td>
         					<td></td>
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
         				<%
-        				ArrayList<Rooms> roomList = (ArrayList<Rooms>)request.getAttribute("roomList");
-        				for (Rooms room : roomList){
+        				ArrayList<Users> hostList = (ArrayList<Users>)request.getAttribute("hostList");
+        				for (Users host : hostList){
         				%>
         				<tr>
-        					<td>R<%=room.getIdRoom() %></td>
-        					<td><%=room.getCost() %></td>
-        					<td><%=room.getDescription() %></td>
-        					<td><%=room.getNameRoom()%></td>
+        					<td><%=host.getUsername() %></td>
+        					<td><%=host.getPhoneNumber()%></td>
+        					<td><%=host.getAddress()%></td>
+        					<td><%=host.getEmail()%></td>
         					<td>
-        						<%
-        							if(room.getIsActive()==1){
-        						%>
-        						<input type="checkbox" name="abc" value="<%=room.getIsActive()%>" checked=true>
-        						<% } else { %>
-        						<input type="checkbox" name="abc" value="<%=room.getIsActive()%>">
-        						<%} %>
+        						<a class="btn btn-default btn-update"   href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a>
+        						<button type="button"  class="btn btn-danger" ><i class="fa fa-remove"></i></button>
         					</td>
         					<td>
-        						<%
-        							
-        						%>
-        						<a value="<%=room.getIdRoom()%>" class="btn btn-default btn-update"   href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a>
-        						<button type="button"  class="btn btn-danger" ><i class="fa fa-remove"></i></button>
+        						<%if (host.getStatus()==1 ){%>
+        						<a class="btn btn-danger"   href="" ><i class="fa fa-lock"></i></a>
+        						<%} else { %>
+        						<a class="btn btn-default"   href="" ><i class="fa fa-unlock"></i></a>
+        						<%} %>
         					</td>
         				</tr>
         			<%} %>
@@ -132,9 +128,16 @@
 		</script>
 		<!--lay ma de xoa -->
 		<script type="text/javascript">
+			/* function getIdRoomForUpdate(){
+				console.log("vo day roi");
+				var idRoom = document.getElementById("idRoom-for-Update").value;
+				console.log("id room :"+idRoom);
+				$('#modal-hidden-idRoom').val(idRoom);
+			} */
 			
 			$(".btn-update").click(function () {
 				var idRoom = $(this).attr("value");
+				console.log(idRoom);
 				$('#modal-hidden-idRoom').val(idRoom);
 			});
 			

@@ -39,4 +39,8 @@ public class RoomBo {
 		return roomDAO.getIsEmpty(idRoom);
 	}
 
+	public int updateActiveRoom( int idRoom) {
+		return roomDAO.updateActiveRoom(idRoom);
+	}
+
 }

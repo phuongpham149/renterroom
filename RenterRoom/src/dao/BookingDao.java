@@ -26,11 +26,11 @@ public class BookingDao {
 			cstmt = con.prepareCall(query);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				booking = new Booking(rs.getInt("idBooking"),
-						rs.getInt("idUser"), rs.getInt("idRoom"),
-						rs.getInt("idStatus"), rs.getString("note"),
-						rs.getDate("timeCreated"), rs.getString("username"),
-						rs.getString("phoneNumber"), rs.getString("address"));
+				booking = new Booking(rs.getInt(1),
+						rs.getInt(2), rs.getInt(6),
+						rs.getInt(7), rs.getString(8),
+						rs.getDate(9), rs.getString(3),
+						rs.getString(4), rs.getString(5));
 				bookings.add(booking);
 			}
 		} catch (SQLException e) {

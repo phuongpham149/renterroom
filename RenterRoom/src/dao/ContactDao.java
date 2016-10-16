@@ -25,9 +25,8 @@ public class ContactDao {
 			cstmt = con.prepareCall(query);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				contact = new Contact(rs.getInt("idContact"),
-						rs.getString("nameContact"), rs.getString("email"),
-						rs.getString("phoneNumber"), rs.getString("content"));
+				contact = new Contact(rs.getInt(1), rs.getString(2),
+						rs.getString(3), rs.getString(4), rs.getString(5));
 				contacts.add(contact);
 			}
 		} catch (SQLException e) {
@@ -94,9 +93,8 @@ public class ContactDao {
 			cstmt.setInt(1, idContact);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				contact = new Contact(rs.getInt("idContact"),
-						rs.getString("nameContact"), rs.getString("email"),
-						rs.getString("phoneNumber"), rs.getString("content"));
+				contact = new Contact(rs.getInt(1), rs.getString(2),
+						rs.getString(3), rs.getString(4), rs.getString(5));
 			}
 		} catch (SQLException e) {
 			Database.closeConnection(this.con);
