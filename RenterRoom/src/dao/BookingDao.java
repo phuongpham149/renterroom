@@ -1,114 +1,117 @@
 package dao;
 
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import bean.Booking;
-import bean.Category;
 
 public class BookingDao {
-	Database db = new Database();
+	private Connection con = null;
+	private CallableStatement cstmt = null;
+	private ResultSet rs = null;
+
+	private ArrayList<Booking> bookings = null;
+	private Booking booking = null;
+
 	public ArrayList<Booking> getListBooking() {
-		ArrayList<Booking> listBooking = new ArrayList<Booking>();
-		String query = "SELECT idBooking, booking.idUser, username,phoneNumber, address, idRoom, idStatus, note , timeCreated FROM  booking,users WHERE booking.idUser = users.idUser";
+		bookings = new ArrayList<Booking>();
+
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			Booking booking;
-			while(rs.next()){
-				booking = new Booking(rs.getInt("idBooking"),rs.getInt("idUser"), rs.getInt("idRoom"), rs.getInt("idStatus"),rs.getString("note"), rs.getString("timeCreated"), rs.getString("username"), rs.getString("phoneNumber"),rs.getString("address"));
-				listBooking.add(booking);
+			con = Database.connectDB();
+			String query = "{CALL getListBooking()}";
+			cstmt = con.prepareCall(query);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				booking = new Booking(rs.getInt("idBooking"),
+						rs.getInt("idUser"), rs.getInt("idRoom"),
+						rs.getInt("idStatus"), rs.getString("note"),
+						rs.getDate("timeCreated"), rs.getString("username"),
+						rs.getString("phoneNumber"), rs.getString("address"));
+				bookings.add(booking);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		
-		return listBooking;
+
+		return bookings;
 	}
-	public boolean addBooking(Booking booking) {
-		String query = "INSERT INTO booking(idUser, idRoom, idStatus, note, timeCreated) VALUES (?,?,?,?)";
-		int check=0;
+
+	public boolean addBooking(int userId, int roomId, int statusId,
+			String note, Date timeCreate) {
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, booking.getIdUser());
-			pstm.setInt(2, booking.getIdRoom());
-			pstm.setInt(3, booking.getIdStatus());
-			pstm.setString(4, booking.getNote());
-			check=pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL addBooking(?,?,?,?,?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, userId);
+			cstmt.setInt(2, roomId);
+			cstmt.setInt(3, statusId);
+			cstmt.setString(4, note);
+			cstmt.setDate(5, timeCreate);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		if(check>0){
+
+		if (result > 0)
 			return true;
-		}
-		else{
+		else
 			return false;
-		}
-		
 	}
-	public boolean delBooking(int id) {
-		// TODO Auto-generated method stub
-		String query = "delete from booking where idBooking=?";
-		int check=0;
+
+	public boolean delBooking(int userId) {
+		int result = 0;
 		try {
-			PreparedStatement pstm = db.connectDB().prepareStatement(query);
-			pstm.setInt(1, id);
-			check=pstm.executeUpdate();
+			con = Database.connectDB();
+			String query = "{CALL delBooking(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, userId);
+			result = cstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
-		if(check>0){
+		if (result > 0)
 			return true;
-		}
-		else{
+		else
 			return false;
-		}
 	}
+
 	public Booking getBookingDetail(int idBooking) {
-		String query = "SELECT idBooking, idUser  idRoom, idStatus, note, timeCreated FROM  booking where idBooking = "+idBooking;
-		Booking booking = null;
+		System.out.println("DAO");
 		try {
-			Statement stm = db.connectDB().createStatement();
-			ResultSet rs = stm.executeQuery(query);
-			
-			while(rs.next()){
-				booking = new Booking(rs.getInt("idBooking"),rs.getInt("idUser"), rs.getInt("idRoom"), rs.getInt("idStatus"),rs.getString("note"), rs.getString("timeCreated"));
-				
+			con = Database.connectDB();
+			String query = "{CALL getBookingDetail(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idBooking);
+			System.out.println("id " + idBooking);
+			rs = cstmt.executeQuery();
+			if (rs.next()) {
+				booking = new Booking(rs.getInt("idBooking"),
+						rs.getInt("idUser"), rs.getInt("idRoom"),
+						rs.getInt("idStatus"), rs.getString("note"),
+						rs.getDate("timeCreated"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
 		}
 		return booking;
 	}
-	public boolean editBooking(Booking booking) {
-        String query = "UPDATE booking set idUser= '"+booking.getIdUser()+"'"
-        		+ ", idRoom = '"+booking.getIdRoom()+"'"
-        		+ ", idStatus = '"+booking.getIdStatus()+"'"
-        		+ ", note = '"+booking.getNote()+"'"
-        		+ ", timeCreated = '"+booking.getTimeCreated()+"' where idBooking= "+booking.getIdBooking();
-		
-		int check=0;
-		try {
-			Statement pstm = db.connectDB().createStatement();
-			check = pstm.executeUpdate(query);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(check>0){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-
 }
