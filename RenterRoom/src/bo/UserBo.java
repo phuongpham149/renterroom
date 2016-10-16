@@ -26,4 +26,8 @@ public class UserBo {
 	public Users getUserDetail(int idUser) {
 		return userDAO.getUserDetail(idUser);
 	}
+
+	public ArrayList<Users> getListHost() {
+		return userDAO.getListHost();
+	}
 }

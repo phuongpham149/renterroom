@@ -8,13 +8,22 @@ public class Users {
 	private int role;
 	private String email;
 	private String address;
+	private int status;
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	public Users() {
 		super();
 	}
 
 	public Users(int idUser, String username, String password,
-			String phoneNumber, int role, String email, String address) {
+			String phoneNumber, int role, String email, String address, int status) {
 		super();
 		this.idUser = idUser;
 		this.username = username;
@@ -23,6 +32,7 @@ public class Users {
 		this.role = role;
 		this.email = email;
 		this.address = address;
+		this.status=status;
 	}
 
 	public int getIdUser() {

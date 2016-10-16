@@ -26,8 +26,7 @@ public class StatusDao {
 			cstmt = con.prepareCall(query);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				status = new Status(rs.getInt("idStatus"),
-						rs.getString("nameStatus"));
+				status = new Status(rs.getInt(1), rs.getString(2));
 				statuses.add(status);
 			}
 		} catch (SQLException e) {
@@ -90,8 +89,7 @@ public class StatusDao {
 			cstmt.setInt(1, idStatus);
 			rs = cstmt.executeQuery();
 			if (rs.next()) {
-				status = new Status(rs.getInt("idStatus"),
-						rs.getString("nameStatus"));
+				status = new Status(rs.getInt(1), rs.getString(2));
 			}
 		} catch (SQLException e) {
 			Database.closeConnection(this.con);

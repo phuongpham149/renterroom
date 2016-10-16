@@ -27,13 +27,11 @@ public class RoomDao {
 			cstmt = con.prepareCall(query);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				room = new Rooms(rs.getInt("idRoom"), rs.getInt("idUser"),
-						rs.getInt("idCategory"), rs.getInt("cost"),
-						rs.getString("description"), rs.getInt("isActive"),
-						rs.getDate("timeCreated"), rs.getDate("timeUpdate"),
-						rs.getInt("isEmpty"), rs.getString("nameRoom"),
-						rs.getString("image"), rs.getString("street"),
-						rs.getString("district"), rs.getString("nameCategory"));
+				room = new Rooms(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+						rs.getInt(5), rs.getString(6), rs.getInt(7),
+						rs.getDate(8), rs.getDate(9), rs.getInt(10),
+						rs.getString(11), rs.getString(12), rs.getString(13),
+						rs.getString(14), rs.getString(4));
 				rooms.add(room);
 			}
 		} catch (SQLException e) {
@@ -112,13 +110,11 @@ public class RoomDao {
 			cstmt.setInt(1, idRoom);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				room = new Rooms(rs.getInt("idRoom"), rs.getInt("idUser"),
-						rs.getInt("idCategory"), rs.getInt("cost"),
-						rs.getString("description"), rs.getInt("isActive"),
-						rs.getDate("timeCreated"), rs.getDate("timeUpdate"),
-						rs.getInt("isEmpty"), rs.getString("nameRoom"),
-						rs.getString("image"), rs.getString("street"),
-						rs.getString("district"));
+				room = new Rooms(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+						rs.getInt(4), rs.getString(5), rs.getInt(6),
+						rs.getDate(7), rs.getDate(8), rs.getInt(9),
+						rs.getString(10), rs.getString(11), rs.getString(12),
+						rs.getString(13));
 			}
 		} catch (SQLException e) {
 			Database.closeConnection(this.con);
@@ -153,7 +149,6 @@ public class RoomDao {
 	}
 
 	public Rooms getIsEmpty(int idRoom) {
-
 		try {
 			con = Database.connectDB();
 			String query = "{CALL getIsEmpty(?)}";
@@ -171,6 +166,24 @@ public class RoomDao {
 		}
 
 		return room;
+	}
+
+	public int updateActiveRoom(int idRoom) {
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL updateActiveRoom(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idRoom);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		return result;
 	}
 
 }

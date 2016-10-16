@@ -18,7 +18,6 @@ public class UserDao {
 	Database db = new Database();
 
 	public ArrayList<Users> getListUser() {
-
 		users = new ArrayList<Users>();
 		try {
 			con = Database.connectDB();
@@ -26,10 +25,9 @@ public class UserDao {
 			cstmt = con.prepareCall(query);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				user = new Users(rs.getInt("idUser"), rs.getString("username"),
-						rs.getString("password"), rs.getString("phoneNumber"),
-						rs.getInt("role"), rs.getString("email"),
-						rs.getString("address"));
+				user = new Users(rs.getInt(1), rs.getString(2),
+						rs.getString(3), rs.getString(4), rs.getInt(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
 				users.add(user);
 			}
 		} catch (SQLException e) {
@@ -102,10 +100,9 @@ public class UserDao {
 			cstmt.setInt(1, idUser);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				user = new Users(rs.getInt("idUser"), rs.getString("username"),
-						rs.getString("password"), rs.getString("phoneNumber"),
-						rs.getInt("role"), rs.getString("email"),
-						rs.getString("address"));
+				user = new Users(rs.getInt(1), rs.getString(2),
+						rs.getString(3), rs.getString(4), rs.getInt(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
 			}
 		} catch (SQLException e) {
 			Database.closeConnection(this.con);
@@ -113,5 +110,26 @@ public class UserDao {
 			Database.closeResultSet(rs);
 		}
 		return user;
+	}
+
+	public ArrayList<Users> getListHost() {
+		users = new ArrayList<Users>();
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getListHost()}";
+			cstmt = con.prepareCall(query);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				user = new Users(rs.getInt(1), rs.getString(2),
+						rs.getString(3), rs.getString(4), rs.getInt(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
+				users.add(user);
+			}
+		} catch (SQLException e) {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		return users;
 	}
 }

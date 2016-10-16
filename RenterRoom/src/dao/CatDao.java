@@ -24,8 +24,7 @@ public class CatDao {
 			cstmt = con.prepareCall(query);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				category = new Category(rs.getInt("idCategory"),
-						rs.getString("nameCategory"));
+				category = new Category(rs.getInt(1), rs.getString(2));
 				categorys.add(category);
 			}
 		} catch (SQLException e) {
@@ -88,8 +87,7 @@ public class CatDao {
 			cstmt.setInt(1, idCat);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				category = new Category(rs.getInt("idCategory"),
-						rs.getString("nameCategory"));
+				category = new Category(rs.getInt(1), rs.getString(2));
 			}
 		} catch (SQLException e) {
 			Database.closeConnection(this.con);
