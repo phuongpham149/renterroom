@@ -47,7 +47,7 @@
         					<td>Mô tả</td>
         					<td>Chủ trọ</td>
         					<td>Duyệt</td>
-        					<td></td>
+        					<td>Chức năng</td>
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
@@ -64,16 +64,17 @@
         						<%
         							if(room.getIsActive()==1){
         						%>
-        						<input type="checkbox" name="abc" value="<%=room.getIsActive()%>" checked=true>
+        						<input type="checkbox" name="checkActive" disabled="disabled" value="<%=room.getIsActive()%>" checked=true>
         						<% } else { %>
-        						<input type="checkbox" name="abc" value="<%=room.getIsActive()%>">
+        						<input type="checkbox" name="checkActive" disabled="disabled" value="<%=room.getIsActive()%>">
         						<%} %>
         					</td>
         					<td>
         						<%
-        							
+        							if(room.getIsActive()==0){
         						%>
         						<a value="<%=room.getIdRoom()%>" class="btn btn-default btn-update"   href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a>
+        						<%} %>
         						<button type="button"  class="btn btn-danger" ><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>

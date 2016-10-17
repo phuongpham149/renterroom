@@ -16,14 +16,14 @@ import bo.UserBo;
 /**
  * Servlet implementation class Admin_HostListaction
  */
-@WebServlet("/Admin_HostListaction")
-public class Admin_HostListaction extends HttpServlet {
+@WebServlet("/Admin_HostListAction")
+public class Admin_HostListAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Admin_HostListaction() {
+	public Admin_HostListAction() {
 		super();
 	}
 
@@ -47,11 +47,10 @@ public class Admin_HostListaction extends HttpServlet {
 
 		UserBo userBo = new UserBo();
 		ArrayList<Users> hostList = userBo.getListHost();
-		System.out.println("size" + hostList.size());
 		request.setAttribute("hostList", hostList);
 
 		RequestDispatcher rd = request
-				.getRequestDispatcher("/admin/UserList.jsp");
+				.getRequestDispatcher("/admin/HostList.jsp");
 		rd.forward(request, response);
 	}
 

@@ -1,6 +1,3 @@
-<%@page import="bean.Users"%>
-<%@page import="bean.Rooms"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/admin/header.jsp" %>
@@ -23,23 +20,16 @@
 				</div>
 			</div>
 			</div>
+			
+			
 			<div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Danh sách chủ trọ</h1>
             </div>
-            
             <!-- /.col-lg-12  -->
         	</div>
 			 <div class="row">
         	<div class="col-lg-12">
-        		<%
-		        if("1".equals(request.getParameter("msg"))){
-		  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
-		  	  	}
-	            if("0".equals(request.getParameter("msg"))){
-	  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
-	  	  	  	}
-		        %>
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
@@ -47,33 +37,30 @@
         					<td>Số điện thoại</td>
         					<td>Địa chỉ</td>
         					<td>Email</td>
-        					<td>Chức năng</td>
-        					<td></td>
+        					<td>Trạng thái</td>
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
-        				<%
-        				ArrayList<Users> hostList = (ArrayList<Users>)request.getAttribute("hostList");
-        				for (Users host : hostList){
-        				%>
         				<tr>
-        					<td><%=host.getUsername() %></td>
-        					<td><%=host.getPhoneNumber()%></td>
-        					<td><%=host.getAddress()%></td>
-        					<td><%=host.getEmail()%></td>
+        					<td>Nguyễn Văn A</td>
+        					<td>0122 234 234</td>
+        					<td>100 Âu Cơ</td>
+        					<td>abc@gmail.com</td>
         					<td>
-        						<a class="btn btn-default btn-update"   href="" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a>
-        						<button type="button"  class="btn btn-danger" ><i class="fa fa-remove"></i></button>
-        					</td>
-        					<td>
-        						<%if (host.getStatus()==1 ){%>
-        						<a class="btn btn-danger"   href="" ><i class="fa fa-lock"></i></a>
-        						<%} else { %>
-        						<a class="btn btn-default"   href="" ><i class="fa fa-unlock"></i></a>
-        						<%} %>
+        					<input type="hidden" id="hidden-idRoom" value="" />
+        						<a class="btn btn-default" href=""><i class="fa fa-unlock-alt"></i></a>
         					</td>
         				</tr>
-        			<%} %>
+        				<tr>
+        					<td>Nguyễn Văn B</td>
+        					<td>0122 234 200</td>
+        					<td>100 Lạc Long Quân</td>
+        					<td>abc@gmail.com</td>
+        					<td>
+        					<input type="hidden" id="hidden-idRoom" value="" />
+        						<a class="btn btn-danger" href=""><i class="fa fa-lock"></i></a>
+        					</td>
+        				</tr>
         			</tbody>
         		</table>
         	<div id="myModal" class="modal fade" role="dialog">
@@ -82,17 +69,17 @@
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form id="form-xoa" action="<%=request.getContextPath()%>/Admin_RoomApproveAction" method="post">
+					<form id="form-xoa" action="" method="post">
 						<input id="modal-hidden-idRoom" type="hidden" value="" name="idRoom" />
 						<div class="modal-header">
 							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
-							<h3>Xác nhận</h3>
+							<h3>Xóa</h3>
 						</div>
 						<div class="modal-body">
-							<p>Bạn có chắc chắn muốn xác nhận duyệt tình trạng phòng?</p>
+							<p>Bạn có chắc chắn muốn xóa thông tin này?</p>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" id="btnYes" class="btn btn-danger" onclick="getIdRoom()">Có</button>
+							<button type="submit" id="btnYes" class="btn btn-danger">Có</button>
 							<button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-secondary">Không</button>
 						</div>
 					</form>
@@ -128,21 +115,19 @@
 		</script>
 		<!--lay ma de xoa -->
 		<script type="text/javascript">
-			/* function getIdRoomForUpdate(){
-				console.log("vo day roi");
-				var idRoom = document.getElementById("idRoom-for-Update").value;
-				console.log("id room :"+idRoom);
-				$('#modal-hidden-idRoom').val(idRoom);
-			} */
-			
-			$(".btn-update").click(function () {
-				var idRoom = $(this).attr("value");
-				console.log(idRoom);
-				$('#modal-hidden-idRoom').val(idRoom);
+			$(document).ready(function() {
+				// lay ma dot dang ky	
+				$('#tbl-body' ).on('click', 'button#btn-xoa', function() {
+					// lay ma dot dang ky
+					var idRoom = $(this).siblings('input#hidden-idRoom').val();  
+					// set ma vao modal
+					$('#modal-hidden-idRoom').val(idRoom);
+				});
 			});
-			
-			
 		</script>
+		
+        
+		
 		<!--End Content-->
 	</div>
 	</div>
