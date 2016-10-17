@@ -100,10 +100,10 @@ public class BookingDao {
 			System.out.println("id " + idBooking);
 			rs = cstmt.executeQuery();
 			if (rs.next()) {
-				booking = new Booking(rs.getInt("idBooking"),
-						rs.getInt("idUser"), rs.getInt("idRoom"),
-						rs.getInt("idStatus"), rs.getString("note"),
-						rs.getDate("timeCreated"));
+				booking = new Booking(rs.getInt(1),
+						rs.getInt(2), rs.getInt(3),
+						rs.getInt(4), rs.getString(5),
+						rs.getDate(6));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

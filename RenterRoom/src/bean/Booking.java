@@ -59,6 +59,7 @@ public class Booking {
 		this.timeCreated = timeCreated;
 	}
 
+	
 	public Date getTimeCreated() {
 		return timeCreated;
 	}
