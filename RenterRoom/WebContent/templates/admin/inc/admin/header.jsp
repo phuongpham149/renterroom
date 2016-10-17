@@ -132,8 +132,9 @@
 						<i class="fa fa-bar-chart-o"></i>
 						<span class="hidden-xs">Danh mục</span>
 					</a>
-					<ul class="dropdown-menu">
-						<li><a href="">Thêm</a></li>
+					<ul class="dropdown-menu" style="display: none;">
+						<li><a href="<%=request.getContextPath()%>/Admin_CategoryListAction"">Danh sách</a></li>
+						<li><a href="<%=request.getContextPath()%>/Admin_CategoryAddAction"">Thêm</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

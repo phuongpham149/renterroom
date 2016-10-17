@@ -1,3 +1,5 @@
+<%@page import="bean.Category"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/admin/header.jsp" %>
@@ -30,6 +32,17 @@
         	</div>
 			 <div class="row">
         	<div class="col-lg-12">
+        		<%
+		        if("1".equals(request.getParameter("msg"))){
+		  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
+		  	  	}
+	            if("0".equals(request.getParameter("msg"))){
+	  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
+	  	  	  	}
+	            if("2".equals(request.getParameter("msg"))){
+		  	  		  out.print("<p style='color:red; font=weight: bold '>  Thao tác thất bại. Vui lòng kiểm tra dữ liệu đã nhập! </p>");
+		  	  	  	}
+		        %>
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
@@ -39,25 +52,20 @@
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
+        			<%
+        				ArrayList<Category> catList = (ArrayList<Category>) request.getAttribute("catList");
+        				for(Category cat : catList){
+        			%>
         				<tr>
-        					<td>1</td>
-        					<td>Phòng trọ</td>
+        					<td>C<%= cat.getIdCategory()%></td>
+        					<td><%=cat.getNameCategory() %></td>
         					<td>
-        					<input type="hidden" id="hidden-idRoom" value="" />
+        						<input type="hidden" id="hidden-idRoom" value="" />
         						<a class="btn btn-default" href="Admin_RecordDetailView.php"><i class="fa fa-edit"></i></a>
         						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>
-        				<tr>
-        					<td>2</td>
-        					<td>Nhà nguyên căn</td>
-        					<td>
-        					<input type="hidden" id="hidden-idRoom" value="" />
-        						<a class="btn btn-default" href="Admin_RecordDetailView.php"><i class="fa fa-edit"></i></a>
-        						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
-        					</td>
-        				</tr>
-        				
+        				<%} %>
         			</tbody>
         		</table>
         	<div id="myModal" class="modal fade" role="dialog">
