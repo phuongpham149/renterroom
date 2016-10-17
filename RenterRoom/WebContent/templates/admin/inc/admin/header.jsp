@@ -22,10 +22,10 @@
 		<link href="<%=request.getContextPath() %>/templates/admin/plugins/chartist/chartist.min.css" rel="stylesheet">
 		
 		<!-- JavaScript For DataTables -->
-		<link href="<%=request.getContextPath() %>/templates/datatable-bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" />
+		<link href="<%=request.getContextPath() %>/templates/admin/datatable-bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" />
 		
 		<!-- DataTables Responsive CSS -->
-		<link href="<%=request.getContextPath() %>/templates/datatable-responsive/css/dataTables.responsive.css" rel="stylesheet" />
+		<link href="<%=request.getContextPath() %>/templates/admin/datatable-responsive/css/dataTables.responsive.css" rel="stylesheet" />
 		
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<!--<script src="http://code.jquery.com/jquery.js"></script>-->
@@ -116,13 +116,13 @@
 		<div id="sidebar-left" class="col-xs-2 col-sm-2">
 			<ul class="nav main-menu">
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
+					<a href="<%=request.getContextPath()%>/Admin_RoomListAction" class="dropdown-toggle">
 						<i class="fa fa-bar-chart-o"></i>
 						<span class="hidden-xs">Phòng trọ</span>
 					</a>
 				</li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
+					<a href="<%=request.getContextPath()%>/Admin_HostListAction" class="dropdown-toggle">
 						<i class="fa fa-bar-chart-o"></i>
 						<span class="hidden-xs">Chủ trọ</span>
 					</a>

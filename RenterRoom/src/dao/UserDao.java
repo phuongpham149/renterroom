@@ -132,4 +132,40 @@ public class UserDao {
 		}
 		return users;
 	}
+
+	public int lockHost(int idLockHost) {
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL lockHost(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idLockHost);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+			return result;
+	}
+
+	public int unlockHost(int idLockHost) {
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL unlockHost(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idLockHost);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+			return result;
+	}
 }

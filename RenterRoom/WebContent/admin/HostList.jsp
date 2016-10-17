@@ -1,3 +1,6 @@
+<%@page import="bean.Users"%>
+<%@page import="bean.Rooms"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/admin/header.jsp" %>
@@ -20,16 +23,23 @@
 				</div>
 			</div>
 			</div>
-			
-			
 			<div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Danh sách chủ trọ</h1>
             </div>
+            
             <!-- /.col-lg-12  -->
         	</div>
 			 <div class="row">
         	<div class="col-lg-12">
+        		<%
+		        if("1".equals(request.getParameter("msg"))){
+		  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
+		  	  	}
+	            if("0".equals(request.getParameter("msg"))){
+	  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
+	  	  	  	}
+		        %>
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
@@ -37,54 +47,59 @@
         					<td>Số điện thoại</td>
         					<td>Địa chỉ</td>
         					<td>Email</td>
-        					<td>Trạng thái</td>
+        					<td>Chức năng</td>
+        					<td></td>
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
+        				<%
+        				ArrayList<Users> hostList = (ArrayList<Users>)request.getAttribute("hostList");
+        				for (Users host : hostList){
+        				%>
         				<tr>
-        					<td>Nguyễn Văn A</td>
-        					<td>0122 234 234</td>
-        					<td>100 Âu Cơ</td>
-        					<td>abc@gmail.com</td>
+        					<td><%=host.getUsername() %></td>
+        					<td><%=host.getPhoneNumber()%></td>
+        					<td><%=host.getAddress()%></td>
+        					<td><%=host.getEmail()%></td>
         					<td>
-        					<input type="hidden" id="hidden-idRoom" value="" />
-        						<a class="btn btn-default" href=""><i class="fa fa-unlock-alt"></i></a>
+        						<a class="btn btn-default "   href="#" ><i class="fa fa-edit"></i></a>
+        						<button type="button"  class="btn btn-danger" ><i class="fa fa-remove"></i></button>
+        					</td>
+        					<td>
+        						<%if (host.getStatus()==1 ){%>
+        						<a class="btn btn-danger btn-lock" value="<%=host.getIdUser()%>"  href="" data-toggle="modal" data-target="#myModalLock"><i class="fa fa-lock"></i></a>
+        						<%} else { %>
+        						<a class="btn btn-default btn-unlock" value="<%=host.getIdUser()%>"  href="" data-toggle="modal" data-target="#myModalUnlock"><i class="fa fa-unlock" ></i></a>
+        						<%} %>
         					</td>
         				</tr>
-        				<tr>
-        					<td>Nguyễn Văn B</td>
-        					<td>0122 234 200</td>
-        					<td>100 Lạc Long Quân</td>
-        					<td>abc@gmail.com</td>
-        					<td>
-        					<input type="hidden" id="hidden-idRoom" value="" />
-        						<a class="btn btn-danger" href=""><i class="fa fa-lock"></i></a>
-        					</td>
-        				</tr>
+        			<%} %>
         			</tbody>
         		</table>
-        	<div id="myModal" class="modal fade" role="dialog">
+        	<div id="myModalLock" class="modal fade" role="dialog">
 
 			<div class="modal-dialog">
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form id="form-xoa" action="" method="post">
-						<input id="modal-hidden-idRoom" type="hidden" value="" name="idRoom" />
+					<form id="form-xoa" action="<%=request.getContextPath()%>/Admin_HostLockAction" method="post">
+						<input id="modal-hidden-lock-idHost" type="hidden" value="" name="idLockHost" />
 						<div class="modal-header">
 							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
-							<h3>Xóa</h3>
+							<h3>Xác nhận</h3>
 						</div>
 						<div class="modal-body">
-							<p>Bạn có chắc chắn muốn xóa thông tin này?</p>
+							<p>Bạn có chắc chắn muốn khóa tài khoản này không?</p>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" id="btnYes" class="btn btn-danger">Có</button>
+							<button type="submit" id="btnYes" class="btn btn-danger" >Có</button>
 							<button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-secondary">Không</button>
 						</div>
 					</form>
 				</div>
 			</div>
+			
+			
 			
 		<script src="<%=request.getContextPath() %>/templates/admin/datatable/js/jquery.dataTables.min.js"></script>
 
@@ -115,26 +130,47 @@
 		</script>
 		<!--lay ma de xoa -->
 		<script type="text/javascript">
-			$(document).ready(function() {
-				// lay ma dot dang ky	
-				$('#tbl-body' ).on('click', 'button#btn-xoa', function() {
-					// lay ma dot dang ky
-					var idRoom = $(this).siblings('input#hidden-idRoom').val();  
-					// set ma vao modal
-					$('#modal-hidden-idRoom').val(idRoom);
-				});
+			$(".btn-lock").click(function () {
+				var idHost = $(this).attr("value");
+				$('#modal-hidden-lock-idHost').val(idHost);
 			});
+			
 		</script>
-		
-        
-		
 		<!--End Content-->
 	</div>
 	</div>
-
+	
 <!--End Container-->
 
+	<div id="myModalUnlock" class="modal fade" role="dialog">
 
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form action="<%=request.getContextPath()%>/Admin_HostUnlockAction" method="post">
+						<input id="modal-hidden-unlock-idHost" type="hidden" value="" name="idUnlockHost" />
+						<div class="modal-header">
+							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+							<h3>Xác nhận</h3>
+						</div>
+						<div class="modal-body">
+							<p>Bạn có chắc chắn muốn mở khóa tài khoản này không?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" id="btnYes" class="btn btn-danger" >Có</button>
+							<button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-secondary">Không</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		$(".btn-unlock").click(function () {
+			var idHostUnlock = $(this).attr("value");
+			$('#modal-hidden-unlock-idHost').val(idHostUnlock);
+		});
+		</script>
 <!-- datatable -->
 <script src="<%=request.getContextPath() %>/templates/admin/datatable/js/jquery.dataTables.min.js"></script>
 <script src="<%=request.getContextPath() %>/templates/admin/datatable-bootstrap/js/dataTables.bootstrap.min.js"></script>

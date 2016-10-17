@@ -30,4 +30,12 @@ public class UserBo {
 	public ArrayList<Users> getListHost() {
 		return userDAO.getListHost();
 	}
+
+	public int lockHost(int idLockHost) {
+		return userDAO.lockHost(idLockHost);
+	}
+
+	public int unlockHost(int idLockHost) {
+		return userDAO.unlockHost(idLockHost);
+	}
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2016 at 05:44 PM
+-- Generation Time: Oct 17, 2016 at 05:37 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -137,6 +137,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetail` (IN `p_user_id` INT(
 SELECT idUser,username, password, phoneNumber, role, email, address,status from users where idUser = p_user_id;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lockHost` (IN `p_host_id` INT(11))  BEGIN
+UPDATE `users` SET `status`=0 WHERE idUser = p_host_id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `unlockHost` (IN `p_host_id` INT(11))  BEGIN
+UPDATE `users` SET `status`=1 WHERE idUser = p_host_id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateActiveRoom` (IN `p_id_Room` INT(11))  BEGIN
 UPDATE `rooms` SET `isActive`=1 WHERE idRoom = p_id_Room;
 END$$
@@ -242,7 +250,7 @@ INSERT INTO `rooms` (`idRoom`, `idUser`, `idCategory`, `cost`, `description`, `i
 (2, 2, 2, 1000000, 'rộng rãi', 1, '2016-09-03 00:00:00', '2016-09-09 00:00:00', 1, 'nguyên căn', 'hinh2.pnf', '11 lê văn hiển', 'cẩm lệ '),
 (3, 2, 1, 700000, 'tiện nghi', 1, '2016-09-01 00:00:00', '2016-09-03 00:00:00', 0, 'đơn', 'hinh3.png', '12 hùng vương', 'thanh khê'),
 (4, 2, 1, 1200000, 'mặt tiền', 1, '2016-09-14 00:00:00', '2016-09-28 00:00:00', 1, 'nguyên căn', 'hinh4.png', '43 nguyễn văn linh', 'thanh khê '),
-(5, 1, 1, 567, '			                \r\n			 hjk           ', 0, '2016-09-22 17:27:41', '2016-09-22 17:27:41', 0, 'dfghj', '370.jpg', 'gh', ''),
+(5, 1, 1, 567, '			                \r\n			 hjk           ', 1, '2016-09-22 17:27:41', '2016-09-22 17:27:41', 0, 'dfghj', '370.jpg', 'gh', ''),
 (6, 1, 1, 4567, '			                \r\n			fghj            ', 1, '2016-09-22 17:29:49', '2016-09-22 17:29:49', 0, 'ghj', 'girl.jpg', 'ty', ''),
 (7, 1, 1, 76, '			                \r\n		hgf	            ', 1, '2016-09-22 17:34:23', '2016-09-22 17:34:23', 0, 'ytrew', '370.jpg', 'ytr', ''),
 (8, 1, 1, 876, '			                \r\n			hgf            ', 0, '2016-09-22 17:36:00', '2016-09-22 17:36:00', 0, 'jhgf', '370.jpg', 'gf', ''),
@@ -299,7 +307,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`idUser`, `username`, `password`, `phoneNumber`, `role`, `email`, `address`, `status`) VALUES
 (1, 'than', '81dc9bdb52d04dc20036dbd8313ed055', '1234567', 2, 'buithithan@gmail.com', '43 nhơn hòa 1, quận cẩm lệ, tp đầ nẵng', 1),
-(2, 'phương', '81dc9bdb52d04dc20036dbd8313ed055', '123456765', 1, 'phamthiphuong@gmail.com', '12 ngô thì nhậm', 0);
+(2, 'phương', '81dc9bdb52d04dc20036dbd8313ed055', '123456765', 1, 'phamthiphuong@gmail.com', '12 ngô thì nhậm', 1),
+(3, 'Mèo', 'e10adc3949ba59abbe56e057f20f883e', '1231231231', 1, 'phamthiphuong.cntt@gmail.com', '12 Hà Huy Tập', 1);
 
 --
 -- Indexes for dumped tables
@@ -374,7 +383,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `idUser` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idUser` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
