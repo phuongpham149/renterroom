@@ -1,3 +1,4 @@
+<%@page import="bean.Contact"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/host/header.jsp" %>
@@ -25,25 +26,29 @@
 					<h2 class="page-header">Trả lời liên hệ</h2>
 				</div>
 				<!-- /.col-lg-12  -->
+				<%
+					Contact contact = (Contact) request.getAttribute("contact");
+				%>
 			</div>
 			<div class="col-md-9 personal-info">
 			<form class="form-horizontal" role="form" action="" method="post">
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Đến</label>
 					<div class="col-lg-8">
-						<input class="form-control input-medium" type="text" name="nameCat" value="" required>
+						<input class="form-control input-medium" type="text" name="nameContact" value="<%=contact.getNameContact()%>" required>
+						<input class="form-control input-medium" type="hidden" name="email" value="<%=contact.getEmail()%>" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Chủ đề</label>
 					<div class="col-lg-8">
-						<input class="form-control input-medium" type="text" name="nameCat" value="" required>
+						<input class="form-control input-medium" type="text" name="subject" value="" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Nội dung</label>
 					<div class="col-lg-8">
-						<textarea  id="editor1" rows="10" cols="30" type="text" name = "education" class="form-control form-effect">
+						<textarea  id="editor1" rows="10" cols="30" type="text" name = "content" class="form-control form-effect">
 			                
 			            </textarea>
 					</div>
@@ -51,7 +56,7 @@
 				<div class="form-group">
 		            <label class="col-lg-2 control-label"></label>
 		            <div class="col-md-8">
-		              <input type="submit" class="btn btn-primary" value="Gởi">
+		              <input type="submit" class="btn btn-primary" value="Gởi" name="submit">
 					  <span></span>
 					  <a href="" class="btn btn-default">Hủy</a>
 		            </div>

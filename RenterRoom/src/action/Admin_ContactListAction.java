@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.Category;
-import bo.CatBo;
+import bean.Contact;
+import bo.ContactBo;
 
 /**
- * Servlet implementation class Admin_CategoryListAction
+ * Servlet implementation class Admin_ContactListAction
  */
-@WebServlet("/Admin_CategoryListAction")
-public class Admin_CategoryListAction extends HttpServlet {
+@WebServlet("/Admin_ContactListAction")
+public class Admin_ContactListAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Admin_CategoryListAction() {
+	public Admin_ContactListAction() {
 		super();
 	}
 
@@ -45,13 +45,13 @@ public class Admin_CategoryListAction extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 
-		CatBo catBo = new CatBo();
-		ArrayList<Category> catList = catBo.getListCat();
+		ContactBo contactBo = new ContactBo();
+		ArrayList<Contact> contactList = contactBo.getListContact();
 
-		request.setAttribute("catList", catList);
+		request.setAttribute("contactList", contactList);
 
 		RequestDispatcher rd = request
-				.getRequestDispatcher("/admin/CategoryList.jsp");
+				.getRequestDispatcher("/admin/ContactList.jsp");
 		rd.forward(request, response);
 	}
 

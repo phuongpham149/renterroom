@@ -17,63 +17,64 @@ import bo.CatBo;
 @WebServlet("/Admin_CategoryAddAction")
 public class Admin_CategoryAddAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Admin_CategoryAddAction() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Admin_CategoryAddAction() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		
+
 		String submit = request.getParameter("submit");
 		CatBo catBo = new CatBo();
 		boolean error = false, check = false;
-		
-		if(submit!=null){
+
+		if (submit != null) {
 			String nameCategory = request.getParameter("nameCat");
-			if(nameCategory.equals("")){
+			if (nameCategory.equals("")) {
 				System.out.println("1");
-				error=true;
+				error = true;
 			}
-			if(nameCategory.length()<6){
+			if (nameCategory.length() < 6) {
 				System.out.println("2");
-				error=true;
+				error = true;
 			}
-			if(error==true){
+			if (error == true) {
 				response.sendRedirect(request.getContextPath()
 						+ "/Admin_CategoryListAction?msg=2");
 				return;
 			}
 			check = catBo.addCat(nameCategory);
-			if (check == false)
-			{
+			if (check == false) {
 				error = true;
 			}
-			if(error==true){
+			if (error == true) {
 				response.sendRedirect(request.getContextPath()
 						+ "/Admin_CategoryListAction?msg=0");
-			}
-			else{
+			} else {
 				response.sendRedirect(request.getContextPath()
 						+ "/Admin_CategoryListAction?msg=1");
 			}
-		}
-		else{
+		} else {
 			RequestDispatcher rd = request
 					.getRequestDispatcher("/admin/CategoryAdd.jsp");
 			rd.forward(request, response);
