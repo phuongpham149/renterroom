@@ -1,3 +1,5 @@
+<%@page import="bean.Contact"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/admin/header.jsp" %>
@@ -30,6 +32,18 @@
         	</div>
 			 <div class="row">
         	<div class="col-lg-12">
+        		<%
+        		if("1".equals(request.getParameter("msg"))){
+  		  		  out.print("<p style='color:green; font=weight: bold '>   Phản hồi thành công </p>");
+  		  	  	}
+        		if("0".equals(request.getParameter("msg"))){
+    		  		  out.print("<p style='color:green; font=weight: bold '>   Thao tác thất bại </p>");
+    		  	  	}
+        		if("2".equals(request.getParameter("msg"))){
+    		  		  out.print("<p style='color:green; font=weight: bold '>   Vui lòng nhập đầy đủ thông tin </p>");
+    		  	  	}
+        		%>
+        		
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
@@ -41,18 +55,22 @@
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
+        			<%
+        				ArrayList<Contact> contactList = (ArrayList<Contact>)request.getAttribute("contactList");
+        				for(Contact contact : contactList){
+        			%>
         				<tr>
-        					<td>Phạm Thị Phương</td>
-        					<td>phamthiphuong.cntt@gmail.com</td>
-        					<td>0166 858 3242</td>
-        					<td>abc xyz</td>
+        					<td><%=contact.getNameContact() %></td>
+        					<td><%=contact.getEmail() %></td>
+        					<td><%=contact.getPhoneNumber() %></td>
+        					<td><%=contact.getContent() %></td>
         					<td>
         					<input type="hidden" id="hidden-idRoom" value="" />
-        						<a class="btn btn-default" href=""><i class="fa fa-edit"></i></a>
+        						<a class="btn btn-default" href="<%= request.getContextPath()%>/Admin_ReplyContactAction?idContact=<%=contact.getIdContact()%>"><i class="fa fa-edit"></i></a>
         						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>
-        				
+        				<%} %>
         			</tbody>
         		</table>
         	<div id="myModal" class="modal fade" role="dialog">
