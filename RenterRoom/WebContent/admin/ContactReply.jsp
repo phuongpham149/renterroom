@@ -35,7 +35,7 @@
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Đến</label>
 					<div class="col-lg-8">
-						<input class="form-control input-medium" type="text" name="nameContact" value="<%=contact.getNameContact()%>" required>
+						<input class="form-control input-medium" type="text" name="nameContact" value="<%=contact.getNameContact()%>" readonly required>
 						<input class="form-control input-medium" type="hidden" name="email" value="<%=contact.getEmail()%>" required>
 					</div>
 				</div>
@@ -48,7 +48,7 @@
 				<div class="form-group">
 					<label class="col-lg-2 control-label">Nội dung</label>
 					<div class="col-lg-8">
-						<textarea  id="editor1" rows="10" cols="30" type="text" name = "content" class="form-control form-effect">
+						<textarea required rows="10" cols="30" name = "content" class="form-control form-effect">
 			                
 			            </textarea>
 					</div>

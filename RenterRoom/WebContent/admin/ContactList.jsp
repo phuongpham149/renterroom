@@ -36,6 +36,12 @@
         		if("1".equals(request.getParameter("msg"))){
   		  		  out.print("<p style='color:green; font=weight: bold '>   Phản hồi thành công </p>");
   		  	  	}
+        		if("0".equals(request.getParameter("msg"))){
+    		  		  out.print("<p style='color:green; font=weight: bold '>   Thao tác thất bại </p>");
+    		  	  	}
+        		if("2".equals(request.getParameter("msg"))){
+    		  		  out.print("<p style='color:green; font=weight: bold '>   Vui lòng nhập đầy đủ thông tin </p>");
+    		  	  	}
         		%>
         		
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">

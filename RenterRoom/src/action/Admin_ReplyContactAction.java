@@ -49,6 +49,7 @@ public class Admin_ReplyContactAction extends HttpServlet {
 
 		ContactBo contactBo = new ContactBo();
 		String submit = request.getParameter("submit");
+		boolean error = false;
 
 		if (submit != null) {
 
@@ -58,7 +59,19 @@ public class Admin_ReplyContactAction extends HttpServlet {
 			String content = request.getParameter("content");
 
 			if (email != null) {
-
+				System.out.println(subject.length()+" ab "+content.length());
+				if(subject.equals("")){
+					error = true;
+				}
+				if(content.length()<=36){
+					error=true;
+				}
+				if(error==true){
+					response.sendRedirect(request.getContextPath()
+							+ "/Admin_ContactListAction?msg=2");
+					return;
+				}
+				
 				// goi email
 				String username = "chodoimotngaymai@gmail.com";
 				String password = "20122017bk";
@@ -78,6 +91,11 @@ public class Admin_ReplyContactAction extends HttpServlet {
 				// chuyen trang
 				response.sendRedirect(request.getContextPath()
 						+ "/Admin_ContactListAction?msg=1");
+				
+			}
+			else{
+				response.sendRedirect(request.getContextPath()
+						+ "/Admin_ContactListAction?msg=0");
 			}
 
 		} else {
