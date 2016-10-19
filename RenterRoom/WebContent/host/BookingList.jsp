@@ -1,3 +1,5 @@
+<%@page import="bean.Booking"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../templates/admin/inc/host/header.jsp" %>
@@ -39,20 +41,34 @@
         					<td>Ghi chú</td>
         					<td>Thời gian</td>
         					<td>Duyệt</td>
+        				    <td>Liên hệ</td>
         				</tr>
         			</thead>
         			<tbody id="tbl-body">
+        			<% 
+        				ArrayList<Booking> list = (ArrayList<Booking>)request.getAttribute("listBooking");
+				        for(Booking obj : list){
+				    %>
         				<tr>
-        					<td>ABC</td>
-        					<td>123456</td>
-        					<td>ACV</td>
-        					<td>ACV</td>
-        					<td>2016/09/10</td>
+        					<td><%=obj.getName()%></td>
+        					<td><%=obj.getPhoneNumber() %></td>
+        					<td><%=obj.getAddress() %></td>
+        					<td><%=obj.getNote() %></td>
+        					<td><%=obj.getTimeCreated() %></td>
         					<td>
-        						<input type="checkbox" name="abc" value="abc" checked=true>
+        					<%
+        					if(obj.getIdStatus() ==2 ){%>
+        						<input type="checkbox" name="idStatus" value="<%=obj.getIdStatus()%>" disabled = "disabled" > 
+        					<%}
+        					if(obj.getIdStatus() == 1){%>
+        					    <input type="checkbox" name="idStatus" value="<%=obj.getIdStatus()%>"  checked="true" disabled = "disabled" > 
+        				    <%}%>
+        					</td>
+        					<td>
+        					  <a class="btn btn-default" href="<%=request.getContextPath()%>/Host_DetailBookingAction?idBooking=<%=obj.getIdBooking()%>" title="Detail" ><i class="fa fa-edit"></i></a>
         					</td>
         				</tr>
-        				
+        		    <%} %>
         			</tbody>
         		</table>
         	<div id="myModal" class="modal fade" role="dialog">
@@ -105,22 +121,6 @@
 					});
 				});
 		</script>
-		<!--lay ma de xoa -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-				// lay ma dot dang ky	
-				$('#tbl-body' ).on('click', 'button#btn-xoa', function() {
-					// lay ma dot dang ky
-					var idRoom = $(this).siblings('input#hidden-idRoom').val();  
-					// set ma vao modal
-					$('#modal-hidden-idRoom').val(idRoom);
-				});
-			});
-		</script>
-		
-        
-		
-		<!--End Content-->
 	</div>
 	</div>
 
