@@ -74,7 +74,7 @@
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form id="form-xoa" action="<%=request.getContextPath()%>/RoomUpdateAction" method="post">
+					<form id="form-xoa" action="<%=request.getContextPath()%>/Host_RoomUpdateAction" method="post">
 						<input id="modal-hidden-idRoom" type="hidden" value="" name="idRoom" />
 						<div class="modal-header">
 							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
