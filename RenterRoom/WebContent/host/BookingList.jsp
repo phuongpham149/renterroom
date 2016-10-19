@@ -48,7 +48,7 @@
         			<% 
         				ArrayList<Booking> list = (ArrayList<Booking>)request.getAttribute("listBooking");
 				        for(Booking obj : list){
-				        %>
+				    %>
         				<tr>
         					<td><%=obj.getName()%></td>
         					<td><%=obj.getPhoneNumber() %></td>
@@ -62,8 +62,7 @@
         					<%}
         					if(obj.getIdStatus() == 1){%>
         					    <input type="checkbox" name="idStatus" value="<%=obj.getIdStatus()%>"  checked="true" disabled = "disabled" > 
-        				    <%}
-        				%>
+        				    <%}%>
         					</td>
         					<td>
         					  <a class="btn btn-default" href="<%=request.getContextPath()%>/Host_DetailBookingAction?idBooking=<%=obj.getIdBooking()%>" title="Detail" ><i class="fa fa-edit"></i></a>
