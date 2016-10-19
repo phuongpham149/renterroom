@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Booking;
-import bean.Rooms;
 import bo.BookingBo;
-import bo.RoomBo;
 
 /**
  * Servlet implementation class Host_BookingListAction

@@ -68,7 +68,7 @@
         					  <a class="btn btn-default" href="<%=request.getContextPath()%>/Host_DetailBookingAction?idBooking=<%=obj.getIdBooking()%>" title="Detail" ><i class="fa fa-edit"></i></a>
         					</td>
         				</tr>
-        		   <%} %>
+        		    <%} %>
         			</tbody>
         		</table>
         	<div id="myModal" class="modal fade" role="dialog">
