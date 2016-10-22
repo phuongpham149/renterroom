@@ -110,43 +110,6 @@ public class BookingDao {
 		}
 		return booking;
 	}
-
-	public int ApprovalBooking(int idApprovalBooking) {
-		int result = 0;
-		try {
-			con = Database.connectDB();
-			String query = "{CALL ApprovalBooking(?)}";
-			cstmt = con.prepareCall(query);
-			cstmt.setInt(1, idApprovalBooking);
-			result = cstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Database.closeConnection(this.con);
-			Database.closePrepareStatement(cstmt);
-			Database.closeResultSet(rs);
-		}
-		return result;
-	}
-
-	public int unApprovalBooking(int idApprovalBooking) {
-		int result = 0;
-		try {
-			con = Database.connectDB();
-			String query = "{CALL unApprovalBooking(?)}";
-			cstmt = con.prepareCall(query);
-			cstmt.setInt(1, idApprovalBooking);
-			result = cstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Database.closeConnection(this.con);
-			Database.closePrepareStatement(cstmt);
-			Database.closeResultSet(rs);
-		}
-		return result;
-	}
-
 	public Boolean editStatusBooking(int status, int idBooking) {
 		int result = 0;
 		try {
