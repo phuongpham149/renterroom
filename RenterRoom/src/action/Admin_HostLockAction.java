@@ -63,7 +63,7 @@ public class Admin_HostLockAction extends HttpServlet {
 				Users user = userBo.getUserDetail(idLockHost);
 
 				String to = user.getEmail();
-				String subject = "[RenterRoom] Thông báo đến người dùng";
+				String subject = "[RenterRoom] Notification to User";
 				String message = "Account " + user.getUsername()
 						+ " are locked by Admin website renterroom.com.";
 				String username = "chodoimotngaymai@gmail.com";

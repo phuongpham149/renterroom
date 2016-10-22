@@ -27,4 +27,17 @@ public class BookingBo {
 		System.out.println("BO");
 		return bookingDAO.getBookingDetail(idBooking);
 	}
+
+	public int ApprovalBooking(int idApprovalBooking) {
+		return bookingDAO.ApprovalBooking(idApprovalBooking);
+	}
+
+	public int unApprovalBooking(int idApprovalBooking) {
+		return bookingDAO.unApprovalBooking(idApprovalBooking);
+	}
+
+	public boolean editStatusBooking(int status, int idBooking) {
+		return bookingDAO.editStatusBooking(status, idBooking);
+
+	}
 }
