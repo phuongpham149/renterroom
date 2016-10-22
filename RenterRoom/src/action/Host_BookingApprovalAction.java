@@ -1,11 +1,7 @@
 package action;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Booking;
-import bean.Rooms;
-import bean.Users;
 import bo.BookingBo;
-import bo.EmailUtility;
-import bo.RoomBo;
-import bo.UserBo;
 
 /**
  * Servlet implementation class Host_BookingContactAction
