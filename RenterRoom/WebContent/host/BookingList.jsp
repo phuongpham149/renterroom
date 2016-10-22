@@ -32,6 +32,14 @@
         	</div>
 			 <div class="row">
         	<div class="col-lg-12">
+        		<%
+		        if("1".equals(request.getParameter("msg"))){
+		  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
+		  	  	}
+	            if("0".equals(request.getParameter("msg"))){
+	  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
+	  	  	  	}
+		        %>
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
@@ -65,26 +73,32 @@
         				    <%}%>
         					</td>
         					<td>
-        					  <a class="btn btn-default" href="<%=request.getContextPath()%>/Host_DetailBookingAction?idBooking=<%=obj.getIdBooking()%>" title="Detail" ><i class="fa fa-edit"></i></a>
+        					<a class="btn btn-default" href="<%= request.getContextPath()%>/Host_BookingContactAction?idBooking=<%=obj.getIdBooking()%>" title = "Liên hệ"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+        	                <%if (obj.getIdStatus()==2 ){%>
+        						
+        						<button value="<%= obj.getIdBooking()%>" class="btn btn-default btn-approval" id="btn-approval<%= obj.getIdBooking() %>" data-toggle="modal" data-target="#myModalApproval" title = "Duyệt"><i class="fa fa-edit"></i> 
+        						
+        						<%} %>  
+        						      						
         					</td>
         				</tr>
         		    <%} %>
         			</tbody>
         		</table>
-        	<div id="myModal" class="modal fade" role="dialog">
+         	<div id="myModalApproval" class="modal fade" role="dialog">
 
 			<div class="modal-dialog">
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form id="form-xoa" action="" method="post">
-						<input id="modal-hidden-idRoom" type="hidden" value="" name="idRoom" />
+					<form id="form-xoa" action="<%=request.getContextPath()%>/Host_BookingApprovalAction" method="post">
+						<input id="modal-hidden-idBooking" type="hidden" value="" name="idBooking" />
 						<div class="modal-header">
 							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
 							<h3>Xóa</h3>
 						</div>
 						<div class="modal-body">
-							<p>Bạn có chắc chắn muốn xóa thông tin này?</p>
+							<p>Bạn có chắc chắn muốn duyệt bài đăng này không?</p>
 						</div>
 						<div class="modal-footer">
 							<button type="submit" id="btnYes" class="btn btn-danger">Có</button>
@@ -93,11 +107,18 @@
 					</form>
 				</div>
 			</div>
-			
-		<script src="<%=request.getContextPath() %>/templates/admin/datatable/js/jquery.dataTables.min.js"></script>
-
-		<script src="<%=request.getContextPath() %>/templates/admin/datatable-bootstrap/js/dataTables.bootstrap.min.js"></script>
-			<script>
+				<script type="text/javascript">
+					$(".btn-approval").click(function() {
+						var idBooking = $(this).attr("value");
+						console.log(idBooking);
+						$('#modal-hidden-idBooking').val(idBooking);
+					});
+				</script>
+				<script
+					src="<%=request.getContextPath()%>/templates/admin/datatable/js/jquery.dataTables.min.js"></script>
+				<script
+					src="<%=request.getContextPath()%>/templates/admin/datatable-bootstrap/js/dataTables.bootstrap.min.js"></script>
+				<script>
 			$(document).ready( function() {
 				$('#dataTables-dsSinhVien').DataTable({
 						responsive : true,
@@ -121,17 +142,17 @@
 					});
 				});
 		</script>
+			</div>
 	</div>
-	</div>
 
-<!--End Container-->
+		<!--End Container-->
+		<!-- datatable -->
+		<script
+			src="<%=request.getContextPath()%>/templates/admin/datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/templates/admin/datatable-bootstrap/js/dataTables.bootstrap.min.js"></script>
+		<!-- /datatable -->
 
 
-<!-- datatable -->
-<script src="<%=request.getContextPath() %>/templates/admin/datatable/js/jquery.dataTables.min.js"></script>
-<script src="<%=request.getContextPath() %>/templates/admin/datatable-bootstrap/js/dataTables.bootstrap.min.js"></script>
-<!-- /datatable -->
-
-
-</body>
+		</body>
 </html>

@@ -27,4 +27,9 @@ public class BookingBo {
 		System.out.println("BO");
 		return bookingDAO.getBookingDetail(idBooking);
 	}
+
+	public boolean editStatusBooking(int status, int idBooking) {
+		return bookingDAO.editStatusBooking(status, idBooking);
+
+	}
 }

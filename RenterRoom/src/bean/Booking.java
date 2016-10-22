@@ -12,6 +12,32 @@ public class Booking {
 	private String username;
 	private String phoneNumber;
 	private String address;
+	private String email;
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+
+	public Booking(int idBooking, int idUser, int idRoom, int idStatus,
+			String note, Date timeCreated, String username, String phoneNumber,
+			String address, String email) {
+		super();
+		this.idBooking = idBooking;
+		this.idUser = idUser;
+		this.idRoom = idRoom;
+		this.idStatus = idStatus;
+		this.note = note;
+		this.timeCreated = timeCreated;
+		this.username = username;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.email = email;
+	}
 
 	public Booking(int idBooking, int idUser, int idRoom, int idStatus,
 			String note, Date timeCreated, String username, String phoneNumber,

@@ -26,11 +26,9 @@ public class BookingDao {
 			cstmt = con.prepareCall(query);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
-				booking = new Booking(rs.getInt(1),
-						rs.getInt(2), rs.getInt(6),
-						rs.getInt(7), rs.getString(8),
-						rs.getDate(9), rs.getString(3),
-						rs.getString(4), rs.getString(5));
+				booking = new Booking(rs.getInt(1), rs.getInt(2), rs.getInt(6),
+						rs.getInt(7), rs.getString(8), rs.getDate(9),
+						rs.getString(3), rs.getString(4), rs.getString(5));
 				bookings.add(booking);
 			}
 		} catch (SQLException e) {
@@ -100,10 +98,8 @@ public class BookingDao {
 			System.out.println("id " + idBooking);
 			rs = cstmt.executeQuery();
 			if (rs.next()) {
-				booking = new Booking(rs.getInt(1),
-						rs.getInt(2), rs.getInt(3),
-						rs.getInt(4), rs.getString(5),
-						rs.getDate(6));
+				booking = new Booking(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+						rs.getInt(4), rs.getString(5), rs.getDate(6));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -113,5 +109,26 @@ public class BookingDao {
 			Database.closeResultSet(rs);
 		}
 		return booking;
+	}
+	public Boolean editStatusBooking(int status, int idBooking) {
+		int result = 0;
+		try {
+			con = Database.connectDB();
+			String query = "{CALL editStatusBooking(?,?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, status);
+			cstmt.setInt(2, idBooking);
+			result = cstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		if (result > 0)
+			return true;
+		else
+			return false;
 	}
 }

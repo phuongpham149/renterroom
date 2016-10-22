@@ -66,14 +66,14 @@
         						<button type="button"  class="btn btn-danger" ><i class="fa fa-remove"></i></button>
         					</td>
         					<td>
-        						<%if (host.getStatus()==1 ){%>
+        						<%if (host.getStatus()==2 ){%>
         						<a class="btn btn-danger btn-lock" value="<%=host.getIdUser()%>"  href="" data-toggle="modal" data-target="#myModalLock"><i class="fa fa-lock"></i></a>
-        						<%} else { %>
+        						<%} else{ %>
         						<a class="btn btn-default btn-unlock" value="<%=host.getIdUser()%>"  href="" data-toggle="modal" data-target="#myModalUnlock"><i class="fa fa-unlock" ></i></a>
         						<%} %>
         					</td>
         				</tr>
-        			<%} %>
+        			<%}%>
         			</tbody>
         		</table>
         	<div id="myModalLock" class="modal fade" role="dialog">
