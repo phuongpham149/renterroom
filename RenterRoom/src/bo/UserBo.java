@@ -38,4 +38,12 @@ public class UserBo {
 	public int unlockHost(int idLockHost) {
 		return userDAO.unlockHost(idLockHost);
 	}
+
+	public Users getUserByUsernamePassword(String userName, String password) {
+		return userDAO.getUserByUsernamePassword(userName,password);
+	}
+
+	public Users getUserByUserName(String username) {
+		return userDAO.getUserByUserName(username);
+	}
 }
