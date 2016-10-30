@@ -24,6 +24,17 @@ public class Booking {
 	
 
 	public Booking(int idBooking, int idUser, int idRoom, int idStatus,
+			String username, String email) {
+		super();
+		this.idBooking = idBooking;
+		this.idUser = idUser;
+		this.idRoom = idRoom;
+		this.idStatus = idStatus;
+		this.username = username;
+		this.email = email;
+	}
+
+	public Booking(int idBooking, int idUser, int idRoom, int idStatus,
 			String note, Date timeCreated, String username, String phoneNumber,
 			String address, String email) {
 		super();
