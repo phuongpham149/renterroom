@@ -91,7 +91,6 @@ public class UserDao {
 	}
 
 	public Users getUserDetail(int idUser) {
-
 		users = new ArrayList<Users>();
 		try {
 			con = Database.connectDB();
@@ -167,5 +166,46 @@ public class UserDao {
 			Database.closeResultSet(rs);
 		}
 			return result;
+	}
+
+	public Users getUserByUsernamePassword(String userName, String password) {
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getUserByUsernamePassword(?,?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setString(1, userName);
+			cstmt.setString(2, password);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				user = new Users(rs.getInt(1), rs.getString(2),
+						rs.getString(3), rs.getString(4), rs.getInt(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
+			}
+		} catch (SQLException e) {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		return user;
+	}
+
+	public Users getUserByUserName(String username) {
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getUserByUsername(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setString(1, username);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				user = new Users(rs.getInt(1), rs.getString(2),
+						rs.getString(3), rs.getString(4), rs.getInt(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
+			}
+		} catch (SQLException e) {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		return user;
 	}
 }

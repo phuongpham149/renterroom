@@ -95,7 +95,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="../controller/Admin_LogoutController.php">
+										<a href="<%=request.getContextPath()%>/LogoutAction">
 											<i class="fa fa-power-off"></i>
 											<span>Logout</span>
 										</a>
@@ -133,12 +133,12 @@
 						<span class="hidden-xs">Danh mục</span>
 					</a>
 					<ul class="dropdown-menu" style="display: none;">
-						<li><a href="<%=request.getContextPath()%>/Admin_CategoryListAction"">Danh sách</a></li>
-						<li><a href="<%=request.getContextPath()%>/Admin_CategoryAddAction"">Thêm</a></li>
+						<li><a href="<%=request.getContextPath()%>/Admin_CategoryListAction">Danh sách</a></li>
+						<li><a href="<%=request.getContextPath()%>/Admin_CategoryAddAction">Thêm</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle">
+					<a href="<%=request.getContextPath()%>/Admin_ContactListAction" class="dropdown-toggle">
 						<i class="fa fa-table"></i>
 						 <span class="hidden-xs">Liên hệ</span>
 					</a>

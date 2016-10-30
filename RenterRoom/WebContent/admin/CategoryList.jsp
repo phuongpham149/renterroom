@@ -60,9 +60,8 @@
         					<td>C<%= cat.getIdCategory()%></td>
         					<td><%=cat.getNameCategory() %></td>
         					<td>
-        						<input type="hidden" id="hidden-idRoom" value="" />
-        						<a class="btn btn-default" href="Admin_RecordDetailView.php"><i class="fa fa-edit"></i></a>
-        						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
+        						<a class="btn btn-default" href="#"><i class="fa fa-edit"></i></a>
+        						<button type="button" id="btn-xoa" value="<%=cat.getIdCategory()%>" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>
         					</td>
         				</tr>
         				<%} %>
@@ -74,8 +73,8 @@
 
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form id="form-xoa" action="" method="post">
-						<input id="modal-hidden-idRoom" type="hidden" value="" name="idRoom" />
+					<form id="form-xoa" action="<%=request.getContextPath()%>/Admin_CategoryDeleteAction" method="post">
+						<input id="modal-hidden-idCat" type="hidden" value="" name="idCategory" />
 						<div class="modal-header">
 							<a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
 							<h3>Xóa</h3>
@@ -120,19 +119,12 @@
 		</script>
 		<!--lay ma de xoa -->
 		<script type="text/javascript">
-			$(document).ready(function() {
-				// lay ma dot dang ky	
-				$('#tbl-body' ).on('click', 'button#btn-xoa', function() {
-					// lay ma dot dang ky
-					var idRoom = $(this).siblings('input#hidden-idRoom').val();  
-					// set ma vao modal
-					$('#modal-hidden-idRoom').val(idRoom);
-				});
+			$(".btn-delete").click(function () {
+				var idCat = $(this).attr("value");
+				console.log("abc "+idCat);
+				$('#modal-hidden-idCat').val(idCat);
 			});
 		</script>
-		
-        
-		
 		<!--End Content-->
 	</div>
 	</div>

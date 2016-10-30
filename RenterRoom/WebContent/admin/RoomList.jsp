@@ -56,7 +56,7 @@
         				for (Rooms room : roomList){
         				%>
         				<tr>
-        					<td>R<%=room.getIdRoom() %></td>
+        					<td><a href="<%=request.getContextPath()%>/Admin_RoomDetailAction?idRoom=<%=room.getIdRoom()%>" alt="Detail the room">R<%=room.getIdRoom() %></a></td>
         					<td><%=room.getCost() %></td>
         					<td><%=room.getDescription() %></td>
         					<td><%=room.getNameRoom()%></td>
@@ -133,13 +133,10 @@
 		</script>
 		<!--lay ma de xoa -->
 		<script type="text/javascript">
-			
 			$(".btn-update").click(function () {
 				var idRoom = $(this).attr("value");
 				$('#modal-hidden-idRoom').val(idRoom);
 			});
-			
-			
 		</script>
 		<!--End Content-->
 	</div>
