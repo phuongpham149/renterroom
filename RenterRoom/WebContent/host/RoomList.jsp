@@ -32,6 +32,14 @@
         	</div>
 			 <div class="row">
         	<div class="col-lg-12">
+        	    <%
+		        if("1".equals(request.getParameter("msg"))){
+		  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
+		  	  	}
+	            if("0".equals(request.getParameter("msg"))){
+	  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
+	  	  	  	}
+		        %>
         		<table class="table table-striped table-bordered table-hover" id="dataTables-dsSinhVien">
         			<thead>
         				<tr>
