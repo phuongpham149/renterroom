@@ -121,8 +121,8 @@
 						<span class="hidden-xs">Phòng trọ</span>
 					</a>
 					<ul class="dropdown-menu" style="display: none;">
-						<li><a href="<%=request.getContextPath()%>/Host_RoomListAction"">Danh sách</a></li>
-						<li><a href="<%=request.getContextPath()%>/Host_RoomAddAction"">Thêm</a></li>
+						<li><a href="<%=request.getContextPath()%>/Host_RoomListAction">Danh sách</a></li>
+						<li><a href="<%=request.getContextPath()%>/Host_RoomAddAction?type=load">Thêm</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
