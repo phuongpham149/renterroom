@@ -1,3 +1,4 @@
+<%@page import="bean.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -68,9 +69,9 @@
 		<div class="h_right">
 			<!--start menu -->
 			<ul class="menu">
-				<li class="active"><a href="index.html">trang chủ</a></li> |
-				<li><a href="rooms.html">liên hệ</a></li> |
-				<li><a href="reservation.html">đăng nhập</a></li> |
+				<li class="active"><a href="index.html">trang chủ</a></li> |	
+					<li><a href="rooms.html">liên hệ</a></li> |
+					<li><a href="reservation.html">đăng nhập</a></li> |
 				<!-- 
 				<li><a href="reservation.html">Xin chào</a></li>
 				<li><a href="rooms.html">đăng xuất</a></li>

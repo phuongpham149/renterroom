@@ -73,6 +73,7 @@ public class LoginAction extends HttpServlet {
 				e.printStackTrace();
 			}
 			UserBo userBo = new UserBo();
+			System.out.println("user"+userName+"pass"+passwordMd5);
 			Users user = userBo
 					.getUserByUsernamePassword(userName, passwordMd5);
 
@@ -96,6 +97,8 @@ public class LoginAction extends HttpServlet {
 					}
 					if (role == 2) {
 						// chuyen den user
+						response.sendRedirect(request.getContextPath()
+								+ "/Public_Index");
 					}
 				} else {
 					response.sendRedirect(request.getContextPath()
