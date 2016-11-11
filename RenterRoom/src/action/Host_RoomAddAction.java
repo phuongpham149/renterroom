@@ -43,8 +43,8 @@ public class Host_RoomAddAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
@@ -52,8 +52,8 @@ public class Host_RoomAddAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
@@ -62,8 +62,7 @@ public class Host_RoomAddAction extends HttpServlet {
 		request.setAttribute("alCat", catBo.getListCat());
 
 		if ("load".equals(request.getParameter("type"))) {
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/host/RoomAdd.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/host/RoomAdd.jsp");
 			rd.forward(request, response);
 		} else {// khi nhan submit
 			DateUtils dateUtils = new DateUtils();
@@ -81,8 +80,7 @@ public class Host_RoomAddAction extends HttpServlet {
 			if (ServletFileUpload.isMultipartContent(request)) {
 				// lay cac thuoc tinh cua form va cac thuoc tinh cua no
 				DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
-				ServletFileUpload upload = new ServletFileUpload(
-						fileItemFactory);
+				ServletFileUpload upload = new ServletFileUpload(fileItemFactory);
 				List<FileItem> items = null;
 				try {
 					items = upload.parseRequest(request);
@@ -116,37 +114,28 @@ public class Host_RoomAddAction extends HttpServlet {
 					} else { // hinh anh
 						String pictureName = formItem.getName();
 						// doi ten hinh anh
-						image = "vne-" + System.nanoTime() + "."
-								+ FilenameUtils.getExtension(pictureName);
+						image = "vne-" + System.nanoTime() + "." + FilenameUtils.getExtension(pictureName);
 						// tien hanh up load anh len file
-						String pathFile = request.getServletContext()
-								.getRealPath("")
-								+ File.separator
-								+ "files"
+						String pathFile = request.getServletContext().getRealPath("") + File.separator + "files"
 								+ File.separator + image;
 						File fileUpload = new File(pathFile);
 						try {
 							formItem.write(fileUpload);
 						} catch (Exception e) {
-							System.out
-									.println("Có loi trong qua trinh upload file ");
+							System.out.println("Co loi trong qua trinh upload file ");
 						}
 					}
 				}
-				Rooms obj = new Rooms(0, idUser, idCategory, cost, description,
-						isActive, timeCreated, timeUpdate, isEmpty, nameRoom,
-						image, street, district);
-				RoomBo roomBo = new RoomBo();
-				boolean result = roomBo.addRoom(idUser, idCategory, cost,
-						description, isActive, timeCreated, timeUpdate,
+				Rooms obj = new Rooms(0, idUser, idCategory, cost, description, isActive, timeCreated, timeUpdate,
 						isEmpty, nameRoom, image, street, district);
+				RoomBo roomBo = new RoomBo();
+				boolean result = roomBo.addRoom(idUser, idCategory, cost, description, isActive, timeCreated,
+						timeUpdate, isEmpty, nameRoom, image, street, district);
 
 				if (result) {
-					response.sendRedirect(request.getContextPath()
-							+ "/Host_RoomListAction?msg=1");
+					response.sendRedirect(request.getContextPath() + "/Host_RoomListAction?msg=1");
 				} else {
-					response.sendRedirect(request.getContextPath()
-							+ "/Host_RoomListAction?msg=0");
+					response.sendRedirect(request.getContextPath() + "/Host_RoomListAction?msg=0");
 				}
 			} else {
 				System.out.println("Form khong thoa man de upload");
