@@ -93,6 +93,8 @@ public class LoginAction extends HttpServlet {
 					}
 					if (role == 1) {
 						// chuyen den host
+						response.sendRedirect(request.getContextPath()
+								+ "/Host_BookingListAction");
 					}
 					if (role == 2) {
 						// chuyen den user

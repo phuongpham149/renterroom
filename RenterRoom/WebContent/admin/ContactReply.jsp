@@ -1,7 +1,7 @@
 <%@page import="bean.Contact"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="../templates/admin/inc/host/header.jsp" %>
+<%@include file="../templates/admin/inc/admin/header.jsp" %>
 <!--Start Content-->
 		<div id="content" class="col-xs-12 col-sm-10">
 			<div id="ajax-content">
@@ -58,7 +58,7 @@
 		            <div class="col-md-8">
 		              <input type="submit" class="btn btn-primary" value="Gởi" name="submit">
 					  <span></span>
-					  <a href="" class="btn btn-default">Hủy</a>
+					  <a href="<%=request.getContextPath()%>/Admin_ContactListAction" class="btn btn-default">Hủy</a>
 		            </div>
 	          </div>  
 		</form>
