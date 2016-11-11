@@ -99,7 +99,7 @@ public class BookingDao {
 			rs = cstmt.executeQuery();
 			if (rs.next()) {
 				booking = new Booking(rs.getInt(1), rs.getInt(2), rs.getInt(3),
-						rs.getInt(4), rs.getString(5), rs.getDate(6));
+						rs.getInt(4), rs.getString(5), rs.getString(6));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
