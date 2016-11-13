@@ -1,3 +1,5 @@
+<%@page import="bean.Rooms"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="templates/public/inc/public/header.jsp" %>   
@@ -50,15 +52,16 @@
 			<h4>Thuê phòng trọ</h4>
 		</div>
 		<div class="reservation">
+		<form action="#" method="post">
 			<ul>
 				<li class="span1_of_1">
 					<h5>Khu vực</h5>
 					<!----------start section_room----------->
-					<div class="section_room">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">--Chọn một khu vực--</option>
+					<div class="section_room" >
+						<select id="location" onchange="change_country(this.value)" class="frm-field required" name="location">
+							<option value="">--Chọn một khu vực--</option>
 				            <option value="Lien Chieu">Liên Chiểu</option>         
-				            <option value="Thanh Khue">Thanh Khuê</option>
+				            <option value="Thanh Khe">Thanh Khuê</option>
 							<option value="Hai Chau">Hải Châu</option>
 							<option value="Son Tra">Sơn Trà</option>         
 				            <option value="Ngu Hanh Son">Ngũ Hành Sơn</option>
@@ -71,8 +74,8 @@
 					<h5>Giá tiền</h5>
 					<!----------start section_room----------->
 					<div class="section_room">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">--Chọn một giá tiền--</option>
+						<select id="cost" onchange="change_country(this.value)" class="frm-field required" name="cost">
+							<option value="">--Chọn một giá tiền--</option>
 				            <option value="500">Dưới 500.000 VND</option>         
 				            <option value="700">500.000 VND - 700.000 VND</option>
 							<option value="1000">700.000 VND - 1 000 000 VND</option>
@@ -83,60 +86,54 @@
 				<li  class="span1_of_1 left">
 					<h5>Loại trọ:</h5>
 					<div class="section_room">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">--Chọn một loại trọ--</option>
-				            <option value="500">Phòng trọ</option>         
-				            <option value="700">Nhà nguyên căn</option>
+						<select id="type" onchange="change_country(this.value)" class="frm-field required" name="type">
+							<option value="">--Chọn một loại trọ--</option>
+				            <option value="phong">Phòng trọ</option>         
+				            <option value="nguyen can">Nhà nguyên căn</option>
 		        		</select>
 					</div>		
 				</li>
+				
 				<li class="span1_of_3">
-					<div class="date_btn">
-						<form>
-							<input type="submit" value="Search" />
-						</form>
-					</div>
+				<div class="date_btn">
+				<input type="submit" value="Search"  name="search"/>
+				</div>
 				</li>
 				<div class="clear"></div>
-			</ul>
+				</ul>
+			</form>
 		</div>
 		<div class="clear"></div>
 		</div>
 	</div>
+	
+	
 	<!--start grids_of_3 -->
+	
 	<div class="grids_of_3">
+	<%
+		ArrayList<Rooms> roomList=(ArrayList<Rooms>)request.getAttribute("roomList");
+			if(roomList!=null){
+				for(Rooms itemRoom: roomList){
+			
+	%>
 		<div class="grid1_of_3">
 			<div class="grid1_of_3_img">
-				<a href="details.html">
+				<a href="<%=request.getContextPath()%>/Public_ContactDetailAction?idRoom=<%=itemRoom.getIdRoom()%>">
 					<img src="<%=request.getContextPath()%>/templates/public/images/pic2.jpg" alt="" />
 					<span class="next"> </span>
-				</a>
+				</a>	
 			</div>
-			<h4><a href="#">single room<span>120$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+			<h4><a href="<%=request.getContextPath()%>/Public_ContactDetailAction?idRoom=<%=itemRoom.getIdRoom()%>"><%=itemRoom.getNameRoom() %><span><%=itemRoom.getCost() %></span></a></h4>
+			<p><%=itemRoom.getDescription() %></p>
 		</div>
-		<div class="grid1_of_3">
-			<div class="grid1_of_3_img">
-				<a href="details.html">
-					<img src="<%=request.getContextPath()%>/templates/public/images/pic1.jpg" alt="" />
-					<span class="next"> </span>
-				</a>
-			</div>
-			<h4><a href="#">double room<span>180$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-		<div class="grid1_of_3">
-			<div class="grid1_of_3_img">
-				<a href="details.html">
-					<img src="<%=request.getContextPath()%>/templates/public/images/pic3.jpg" alt="" />
-					<span class="next"> </span>
-				</a>
-			</div>
-			<h4><a href="#">suite room<span>210$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
+		
+		
+		<%}} %>
 		<div class="clear"></div>
 	</div>	
+	
+	<div class="clear"></div>
 </div>
 </div>	
 <%@include file="templates/public/inc/public/footer.jsp" %>

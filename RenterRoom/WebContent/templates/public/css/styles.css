@@ -267,7 +267,7 @@ select option{
 .date_btn{
 	margin-top: 33px;
 }
-.date_btn form input[type="submit"] {
+.date_btn input[type="submit"] {
 	text-transform:capitalize;
 	width: 100% !important;
 	background: #32A2E3;
@@ -294,8 +294,7 @@ select option{
 .grid1_of_3{
 	float: left;
 	width: 30.333333%;
-	margin-left: 4.33333%;
-
+	margin-right: 30px;
 }
 .grid1_of_3:first-child{
 	margin-left: 0;

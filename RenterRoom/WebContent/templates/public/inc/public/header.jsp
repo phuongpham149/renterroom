@@ -68,9 +68,9 @@
 		<div class="h_right">
 			<!--start menu -->
 			<ul class="menu">
-				<li class="active"><a href="index.html">trang chủ</a></li> |
-				<li><a href="rooms.html">liên hệ</a></li> |
-				<li><a href="reservation.html">đăng nhập</a></li> |
+				<li class="active"><a href="<%= request.getContextPath()%>/Public_RoomListAction">trang chủ</a></li> |
+				<li><a href="<%=request.getContextPath()%>/Public_ContactListAction">liên hệ</a></li> |
+				<li><a href="<%=request.getContextPath()%>/LoginAction">đăng nhập</a></li> |
 				<!-- 
 				<li><a href="reservation.html">Xin chào</a></li>
 				<li><a href="rooms.html">đăng xuất</a></li>
@@ -82,9 +82,9 @@
 		<div class="top-nav">
 		<nav class="clearfix">
 				<ul>
-				<li class="active"><a href="index.html">trang chủ</a></li> 
-				<li><a href="rooms.html">liên hệ</a></li> 
-				<li><a href="reservation.html">đăng nhập</a></li>
+				<li class="active"><a href="<%= request.getContextPath()%>/Public_RoomListAction">trang chủ</a></li> 
+				<li><a href="<%=request.getContextPath()%>/Public_ContactListAction">liên hệ</a></li> 
+				<li><a href="<%=request.getContextPath()%>/LoginAction">đăng nhập</a></li>
 				<!-- 
 				<li><a href="reservation.html">Xin chào</a></li>
 				<li><a href="rooms.html">đăng xuất</a></li>
