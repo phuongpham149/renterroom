@@ -43,4 +43,7 @@ public class RoomBo {
 		return roomDAO.updateActiveRoom(idRoom);
 	}
 
+	public ArrayList<Rooms> searchRoom(String location, String cost, String type) {
+		return roomDAO.searchRoom(location,cost,type);
+	}
 }

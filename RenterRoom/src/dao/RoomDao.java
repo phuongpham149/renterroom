@@ -186,4 +186,49 @@ public class RoomDao {
 		return result;
 	}
 
+	public ArrayList<Rooms> searchRoom(String location, String cost, String type) {
+		ArrayList<Rooms> alRoom=new ArrayList<Rooms>();
+		
+		Rooms newRoom;
+		
+		try {
+			con = Database.connectDB();
+			String sql=" SELECT idRoom, idUser,category.idCategory,nameCategory,cost,description,isActive,timeCreated, timeUpdate,isEmpty, nameRoom, image, street, district from rooms INNER JOIN category ON rooms.idCategory = category.idCategory where 1";
+			if(!"".equals(location)){
+				sql+=" AND district like '%"+location+"%'";
+			}
+			if(!"".equals(cost)){
+				if("500".equals(cost)){
+					sql+=" AND cost <500";
+				}else if("700".equals(cost)){
+					sql += " AND cost between 500 AND 700";
+				}else if (cost.equals("1000")) {
+					cost += " and cost between 700 AND 1000";
+				}else if("1001".equals(cost)){
+					cost += " and cost > 1000";
+				}
+				
+			}
+			if (!"".equals(type)) {
+				sql+=" AND category.nameCategory like '%"+type.trim()+"%'";
+			}
+			cstmt = con.prepareCall(sql);
+			rs = cstmt.executeQuery();
+			System.out.println(sql);
+			while (rs.next()) {
+				newRoom = new Rooms(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+						rs.getInt(5), rs.getString(6), rs.getInt(7),
+						rs.getDate(8), rs.getDate(9), rs.getInt(10),
+						rs.getString(11), rs.getString(12), rs.getString(13),
+						rs.getString(14), rs.getString(4));
+				alRoom.add(newRoom);
+			}
+		} catch (SQLException e) {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		
+		return alRoom;
+	}
 }

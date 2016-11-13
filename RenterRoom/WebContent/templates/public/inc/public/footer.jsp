@@ -9,9 +9,9 @@
 			</div>
 			<div class="f_nav">
 				<ul>
-					<li><a href="index.html">home</a></li>
-					<li><a href="rooms.html">contact</a></li>
-					<li><a href="reservation.html">login</a></li>
+					<li><a href="<%=request.getContextPath()%>/Public_RoomListAction">home</a></li>
+					<li><a href="<%=request.getContextPath()%>/Public_ContactListAction">contact</a></li>
+					<li><a href="<%=request.getContextPath()%>/LoginAction">login</a></li>
 				</ul>
 			</div>
 			<div class="soc_icons">
