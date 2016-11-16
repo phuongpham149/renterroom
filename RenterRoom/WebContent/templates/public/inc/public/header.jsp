@@ -75,7 +75,7 @@
 				Users user = (Users)session.getAttribute("user");
 				if (user != null ){
 					if(user.getRole() == 2){%>
-						<li><a href="reservation.html">Xin chào <%=user.getUsername() %></a></li>
+						<li><a href="#">Xin chào <%=user.getUsername() %></a></li>
 				        <li><a href="<%=request.getContextPath()%>/LogoutAction">đăng xuất</a></li>
 					<% }else{%>
 						<li><a href="<%=request.getContextPath()%>/LoginAction">đăng nhập</a></li> |	

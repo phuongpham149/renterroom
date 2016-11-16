@@ -40,7 +40,7 @@ public class Public_ContactListAction extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("sent") != null) {
+		if (request.getParameter("submit") != null) {
 			String userName = new String(request.getParameter("userName")
 					.getBytes("ISO-8859-1"), "UTF-8");
 			String userEmail = new String(request.getParameter("userEmail")

@@ -10,25 +10,33 @@
 				<div class="contact_right">
 				  <div class="contact-form">
 				  	<h3>Liên Hệ</h3>
-					    <form method="post" action="contact-post.html">
+				  	<%
+			        if("1".equals(request.getParameter("msg"))){
+			  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
+			  	  	}
+		            if("0".equals(request.getParameter("msg"))){
+		  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
+		  	  	  	}
+			        %>
+					    <form method="post" action="<%=request.getContextPath()%>/Public_ContactListAction">
 					    	<div>
 						    	<span><label>HỌ TÊN</label></span>
-						    	<span><input name="userName" type="text" class="textbox"></span>
+						    	<span><input name="userName" type="text" class="textbox" required></span>
 						    </div>
 						    <div>
 						    	<span><label>E-MAIL</label></span>
-						    	<span><input name="userEmail" type="text" class="textbox"></span>
+						    	<span><input name="userEmail" type="text" class="textbox" required></span>
 						    </div>
 						    <div>
 						     	<span><label>SỐ ĐIỆN THOẠI</label></span>
-						    	<span><input name="userPhone" type="text" class="textbox"></span>
+						    	<span><input name="userPhone" type="text" class="textbox" required></span>
 						    </div>
 						    <div>
 						    	<span><label>NỘI DUNG</label></span>
-						    	<span><textarea name="userMsg"> </textarea></span>
+						    	<span><textarea name="userMsg" required> </textarea></span>
 						    </div>
 						   <div>
-						   		<span><input type="submit" value="Gởi"></span>
+						   		<span><input type="submit" value="Gởi" name="submit"></span>
 						  </div>
 					    </form>
 				    </div>

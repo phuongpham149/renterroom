@@ -8,7 +8,7 @@
        * element that contains the map. */
       #map {
             width: 46%;
-		    height: 200px;
+		    height: 370px;
 		    margin-left: 72px;
 		    position: relative;
 		    overflow: hidden;
