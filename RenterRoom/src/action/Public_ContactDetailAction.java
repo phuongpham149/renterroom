@@ -41,6 +41,7 @@ public class Public_ContactDetailAction extends HttpServlet {
 		int idRoom=Integer.parseInt(request.getParameter("idRoom"));
 		RoomBo roomBo=new RoomBo();
 		Rooms alRooms=roomBo.getRoomDetail(idRoom);
+		alRooms.setAddress(alRooms.getStreet()+" "+alRooms.getDistrict()+" Đà Nẵng");
 		request.setAttribute("alRooms", alRooms);
 		request.getRequestDispatcher("/detail.jsp").forward(request, response);
 	}

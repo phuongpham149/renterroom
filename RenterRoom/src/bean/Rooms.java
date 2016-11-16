@@ -17,6 +17,15 @@ public class Rooms {
 	private String street;
 	private String district;
 	private String nameCategory;
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public String getNameCategory() {
 		return nameCategory;
