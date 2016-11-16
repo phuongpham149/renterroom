@@ -24,7 +24,7 @@
 				  });
 		  </script>
 <!---/End-date-piker---->
-<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/templates/public/css/JFGrid.css" />
+<%-- <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/templates/public/css/JFGrid.css" /> --%>
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/templates/public/css/JFFormStyle-1.css" />
 		<script type="text/javascript" src="<%=request.getContextPath()%>/templates/public/js/JFCore.js"></script>
 		<script type="text/javascript" src="<%=request.getContextPath()%>/templates/public/js/JFForms.js"></script>
