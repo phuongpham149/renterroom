@@ -49,7 +49,6 @@
         					<td>Mô tả</td>
         					<td>Trống</td>
         					<td>Loại trọ</td>
-        					<td>Hình ảnh</td>
         					<td></td>
         				</tr>
         			</thead>
@@ -58,11 +57,10 @@
 				  ArrayList<Rooms> list = (ArrayList<Rooms>)request.getAttribute("listRoom");
 				  for(Rooms  obj : list){
 					  int nid = obj.getIdRoom();
-					  String pathFile = request.getContextPath() + "/files/" + obj.getImage();
 				%>
         				<tr>
-        					<td><%=obj.getIdRoom()%></td>
-        					<td><%=obj.getCost()%></td>
+        					<td>R<%=obj.getIdRoom()%></td>
+        					<td><%=obj.getCost()%>.000VNĐ</td>
         					<td><%=obj.getDescription()%></td>
         					<td>
         					<% if (obj.getIsEmpty()==0){ %>
@@ -72,14 +70,6 @@
         					<%} %>
         					</td>
         					<td><%=obj.getNameCategory()%></td>
-        					<td align="center">
-					        <%
-					        if(!"".equals(obj.getImage())){
-						    %>
-						    <img alt="" src="<%=pathFile%>" class="hoa">
-						    <% }else{ %>
-							--chưa update--
-						    <% }%>
         					<td>
         						<button value="<%= obj.getIdRoom() %>" class="btn btn-default btn-update" id="btn-update<%= obj.getIdRoom() %>" data-toggle="modal" data-target="#myModalUpdate"><i class="fa fa-edit"></i> 
         						<button type="button" id="btn-xoa" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fa fa-remove"></i></button>

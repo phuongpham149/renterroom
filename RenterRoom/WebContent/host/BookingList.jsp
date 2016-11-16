@@ -46,6 +46,7 @@
         					<td>Họ tên</td>
         					<td>Số điện thoại</td>
         					<td>Địa chỉ</td>
+        					<td>Mã Phòng</td>
         					<td>Ghi chú</td>
         					<td>Thời gian</td>
         					<td>Duyệt</td>
@@ -61,6 +62,7 @@
         					<td><%=obj.getName()%></td>
         					<td><%=obj.getPhoneNumber() %></td>
         					<td><%=obj.getAddress() %></td>
+        					<td>R<%=obj.getIdRoom() %></td>
         					<td><%=obj.getNote() %></td>
         					<td><%=obj.getTimeCreated() %></td>
         					<td>
@@ -75,11 +77,8 @@
         					<td>
         					<a class="btn btn-default" href="<%= request.getContextPath()%>/Host_BookingContactAction?idBooking=<%=obj.getIdBooking()%>" title = "Liên hệ"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
         	                <%if (obj.getIdStatus()==2 ){%>
-        						
         						<button value="<%= obj.getIdBooking()%>" class="btn btn-default btn-approval" id="btn-approval<%= obj.getIdBooking() %>" data-toggle="modal" data-target="#myModalApproval" title = "Duyệt"><i class="fa fa-edit"></i> 
-        						
-        						<%} %>  
-        						      						
+        						<%} %>  				
         					</td>
         				</tr>
         		    <%} %>

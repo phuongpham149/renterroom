@@ -17,13 +17,14 @@ public class BookingDao {
 	private ArrayList<Booking> bookings = null;
 	private Booking booking = null;
 
-	public ArrayList<Booking> getListBooking() {
+	public ArrayList<Booking> getListBooking(int userId) {
 		bookings = new ArrayList<Booking>();
 
 		try {
 			con = Database.connectDB();
-			String query = "{CALL getListBooking()}";
+			String query = "{CALL getListBooking(?)}";
 			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, userId);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
 				booking = new Booking(rs.getInt(1), rs.getInt(2), rs.getInt(6),
@@ -89,7 +90,6 @@ public class BookingDao {
 	}
 
 	public Booking getBookingDetail(int idBooking) {
-		System.out.println("DAO");
 		try {
 			con = Database.connectDB();
 			String query = "{CALL getBookingDetail(?)}";

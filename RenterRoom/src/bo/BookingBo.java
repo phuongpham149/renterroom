@@ -9,8 +9,8 @@ import dao.BookingDao;
 public class BookingBo {
 	BookingDao bookingDAO = new BookingDao();
 
-	public ArrayList<Booking> getListBooking() {
-		return bookingDAO.getListBooking();
+	public ArrayList<Booking> getListBooking(int userId) {
+		return bookingDAO.getListBooking(userId);
 	}
 
 	public boolean addBooking(int userId, int roomId, int statusId,

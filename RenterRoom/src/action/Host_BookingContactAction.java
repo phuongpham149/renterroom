@@ -66,7 +66,6 @@ public class Host_BookingContactAction extends HttpServlet {
 			String content = request.getParameter("content");
 
 			if (email != null) {
-				System.out.println(subject.length() + " ab " + content.length());
 				if (subject.equals("")) {
 					error = true;
 				}
@@ -109,7 +108,7 @@ public class Host_BookingContactAction extends HttpServlet {
 			Booking booking = bookingBo.getBookingDetail(idBooking);
 			request.setAttribute("booking", booking);
 
-			RequestDispatcher rd = request.getRequestDispatcher("/host/BookingContact.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/host/BookingReply.jsp");
 			rd.forward(request, response);
 		}
 	}

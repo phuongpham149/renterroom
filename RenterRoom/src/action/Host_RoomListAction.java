@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Rooms;
+import bean.Users;
 import bo.RoomBo;
 import dao.LibraryPer;
 
@@ -48,13 +49,13 @@ public class Host_RoomListAction extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
-
+		Users user = LibraryPer.getUserLogin();
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 
 		RoomBo list = new RoomBo();
-		ArrayList<Rooms> listRoom = list.getListRoom();
+		ArrayList<Rooms> listRoom = list.getListRoomByHost(user.getIdUser());
 
 		request.setAttribute("listRoom", listRoom);
 		RequestDispatcher rd = request.getRequestDispatcher("host/RoomList.jsp");

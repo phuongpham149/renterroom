@@ -46,4 +46,8 @@ public class RoomBo {
 	public ArrayList<Rooms> searchRoom(String location, String cost, String type) {
 		return roomDAO.searchRoom(location,cost,type);
 	}
+
+	public ArrayList<Rooms> getListRoomByHost(int idUser) {
+		return roomDAO.getListRoomByHost(idUser);
+	}
 }

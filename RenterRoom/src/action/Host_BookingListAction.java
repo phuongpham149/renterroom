@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Booking;
+import bean.Users;
 import bo.BookingBo;
 import dao.LibraryPer;
 
@@ -49,13 +50,13 @@ public class Host_BookingListAction extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
-
+		Users user = LibraryPer.getUserLogin();
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 
 		BookingBo list = new BookingBo();
-		ArrayList<Booking> listBooking = list.getListBooking();
+		ArrayList<Booking> listBooking = list.getListBooking(user.getIdUser());
 
 		request.setAttribute("listBooking", listBooking);
 		RequestDispatcher rd = request.getRequestDispatcher("host/BookingList.jsp");
