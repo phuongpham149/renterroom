@@ -18,6 +18,7 @@ import bean.Rooms;
 import bean.Users;
 import bo.BookingBo;
 import bo.RoomBo;
+import dao.LibraryPer;
 
 /**
  * Servlet implementation class Public_BookingRoom
@@ -51,11 +52,18 @@ public class Public_BookingRoom extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		LibraryPer lPermission = new LibraryPer();
+		if (!lPermission.isLogin(request, response)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
+
 		BookingBo bookingBo = new BookingBo();
-		int idRoom = 2;
+
 		String submit = request.getParameter("submit");
 		boolean error = false, check = false;
 		HttpSession session = request.getSession();
@@ -63,23 +71,28 @@ public class Public_BookingRoom extends HttpServlet {
 
 		if (users != null) {
 			if (submit != null) {
+				System.out.println("submit form booking");
 				DateUtils dateUtils = new DateUtils();
 				Calendar cal = Calendar.getInstance();
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				String dateTime = sdf.format(cal.getTime()).toString();
 				Date timeCreated;
 				timeCreated = dateUtils.convertToSDate(dateTime);
+
 				String note = request.getParameter("note");
+				int idRoom = Integer.parseInt(request.getParameter("roomId"));
+
 				check = bookingBo.addBooking(users.getIdUser(), idRoom, 0, note, timeCreated);
 				if (check == false) {
 					error = true;
 				}
 				if (error == true) {
-					response.sendRedirect(request.getContextPath() + "/Public_BookingRoom?msg=0");
+					response.sendRedirect(request.getContextPath() + "/Public_BookingRoom?msg=0&idRoom=" + idRoom);
 				} else {
-					response.sendRedirect(request.getContextPath() + "/Public_BookingRoom?msg=1");
+					response.sendRedirect(request.getContextPath() + "/Public_BookingRoom?msg=1&idRoom=" + idRoom);
 				}
 			} else {
+				int idRoom = Integer.parseInt(request.getParameter("idRoom"));
 				RoomBo roomBo = new RoomBo();
 				Rooms rooms = new Rooms();
 				rooms = roomBo.getRoomDetail(idRoom);

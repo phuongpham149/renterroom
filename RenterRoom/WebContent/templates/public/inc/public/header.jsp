@@ -1,3 +1,4 @@
+<%@page import="bean.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -70,7 +71,19 @@
 			<ul class="menu">
 				<li class="active"><a href="<%= request.getContextPath()%>/Public_RoomListAction">trang chủ</a></li> |
 				<li><a href="<%=request.getContextPath()%>/Public_ContactListAction">liên hệ</a></li> |
-				<li><a href="<%=request.getContextPath()%>/LoginAction">đăng nhập</a></li> |
+				<%
+				Users user = (Users)session.getAttribute("user");
+				if (user != null ){
+					if(user.getRole() == 2){%>
+						<li><a href="reservation.html">Xin chào <%=user.getUsername() %></a></li>
+				        <li><a href="<%=request.getContextPath()%>/LogoutAction">đăng xuất</a></li>
+					<% }else{%>
+						<li><a href="<%=request.getContextPath()%>/LoginAction">đăng nhập</a></li> |	
+					<%}}
+				else{
+					%>
+					<li><a href="<%=request.getContextPath()%>/LoginAction">đăng nhập</a></li> |	
+					<%}%>
 				<!-- 
 				<li><a href="reservation.html">Xin chào</a></li>
 				<li><a href="rooms.html">đăng xuất</a></li>
@@ -80,18 +93,6 @@
 		</div>
 		<div class="clear"></div>
 		<div class="top-nav">
-		<nav class="clearfix">
-				<ul>
-				<li class="active"><a href="<%= request.getContextPath()%>/Public_RoomListAction">trang chủ</a></li> 
-				<li><a href="<%=request.getContextPath()%>/Public_ContactListAction">liên hệ</a></li> 
-				<li><a href="<%=request.getContextPath()%>/LoginAction">đăng nhập</a></li>
-				<!-- 
-				<li><a href="reservation.html">Xin chào</a></li>
-				<li><a href="rooms.html">đăng xuất</a></li>
-				 -->
-				</ul>
-				<a href="#" id="pull">Menu</a>
-			</nav>
 		</div>
 	</div>
 </div>

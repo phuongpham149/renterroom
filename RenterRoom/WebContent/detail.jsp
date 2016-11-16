@@ -23,7 +23,7 @@
 				<p class="para">Tiền phòng: <span><%=alRooms.getCost() %> VNĐ</span> </p>
 				<p class="para">Thời gian cập nhật: <span><%=DateUtils.formatDate(alRooms.getTimeCreated())%></span></p>
 				<div class="read_more">
-					 <a href="details.html">Đặt phòng</a>
+					 <a href="<%=request.getContextPath()%>/Public_BookingRoom?idRoom=<%=alRooms.getIdRoom()%>" name="submit">Đặt phòng</a>
 				</div>
 			</div>
 		</div>
