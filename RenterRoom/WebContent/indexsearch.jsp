@@ -146,11 +146,12 @@
 				ArrayList<Rooms> alRooms=(ArrayList<Rooms>)request.getAttribute("alRooms");
 						if(alRooms!=null){
 							for(Rooms itemRoom: alRooms){
+								String pathFile = request.getContextPath() + "/files/" + itemRoom.getImage();
 			%>
 			<div class="grid1_of_3">
 				<div class="grid1_of_3_img">
 					<a href="<%=request.getContextPath()%>/Public_ContactDetailAction?idRoom=<%=itemRoom.getIdRoom()%>"> <img
-						src="<%=request.getContextPath()%>/templates/public/images/pic2.jpg"
+						src="<%=pathFile%>"
 						alt="" /> <span class="next"> </span>
 					</a>
 				</div>
