@@ -156,7 +156,7 @@
 					</a>
 				</div>
 				<h4>
-					<a href="<%=request.getContextPath()%>/Public_ContactDetailAction?idRoom=<%=itemRoom.getIdRoom()%>"><%=itemRoom.getNameRoom()%><span><%=itemRoom.getCost()%></span></a>
+					<a href="<%=request.getContextPath()%>/Public_ContactDetailAction?idRoom=<%=itemRoom.getIdRoom()%>"><%=itemRoom.getNameRoom()%><span><%=itemRoom.getCost()%>.000VNĐ</span></a>
 				</h4>
 				<p><%=itemRoom.getDescription()%></p>
 			</div>

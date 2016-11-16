@@ -25,7 +25,6 @@ public class Public_RoomListAction extends HttpServlet {
      */
     public Public_RoomListAction() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -63,7 +62,6 @@ public class Public_RoomListAction extends HttpServlet {
 			}
 			RoomBo roomBo = new RoomBo();
 			ArrayList<Rooms> alRooms = roomBo.searchRoom(location, cost, type);
-			System.out.println(alRooms.size());
 			if (alRooms.size() != 0) {
 				request.setAttribute("alRooms", alRooms);
 				request.getRequestDispatcher("/indexsearch.jsp").forward(request,

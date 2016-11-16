@@ -1,10 +1,11 @@
+<%@page import="bean.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Hỗ Trợ Việc Làm</title>
+		<title>Tìm kiếm phòng trọ</title>
 		<meta name="description" templates="description">
 		<meta name="author" templates="DevOOPS">
 		<meta name="viewport" templates="width=device-width, initial-scale=1">
@@ -74,11 +75,14 @@
 								<li class="dropdown welcome-admin">
 									<a href="#" class="dropdown-toggle account" data-toggle="dropdown">
 										<div class="avatar">
-											<img src="../templates/admin/img/person.png" class="img-circle" alt="avatar" />
+											<img src="<%=request.getContextPath()%>/templates/admin/img/user.png" class="img-circle" alt="avatar" />
 										</div>
 										<i id="dropUser" class="fa fa-angle-down pull-right"></i>
 										<div class="user-mini pull-right">
-											<span class="welcome">Xin chào,</span>
+										<%
+											Users user = (Users) session.getAttribute("user");
+										%>
+											<span class="welcome">Xin chào,<br/><%=user.getUsername() %></span>
 										</div>
 									</a>
 								<ul class="dropdown-menu">
@@ -95,7 +99,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="../controller/Admin_LogoutController.php">
+										<a href="<%=request.getContextPath()%>/LogoutAction">
 											<i class="fa fa-power-off"></i>
 											<span>Logout</span>
 										</a>

@@ -16,7 +16,7 @@
 								<a href="index.html">Trang chủ</a>
 							</li>
 							<li>
-								<a href="#">Liên hệ </a>
+								<a href="#">Đặt phòng </a>
 							</li>
 						</ol>
 					</div>
@@ -24,12 +24,23 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
-					<h2 class="page-header">Liên hệ </h2>
+					<h2 class="page-header">Phản hồi đặt phòng </h2>
 				</div>
 				<!-- /.col-lg-12  -->
 			    <%
 					Booking booking = (Booking)request.getAttribute("booking");
 				%>
+				<%
+		        if("1".equals(request.getParameter("msg"))){
+		  		  out.print("<p style='color:green; font=weight: bold '>   Thực hiện thành công </p>");
+		  	  	}
+	            if("0".equals(request.getParameter("msg"))){
+	  	  		  out.print("<p style='color:red; font=weight: bold '>   Thực hiện thất bại </p>");
+	  	  	  	}
+	            if("2".equals(request.getParameter("msg"))){
+		  	  		  out.print("<p style='color:red; font=weight: bold '>   Vui lòng điền đầy đủ thông tin </p>");
+		  	  	  	}
+		        %>
 			</div>
 			<div class="col-md-9 personal-info">
 			<form class="form-horizontal" role="form" action="" method="post">

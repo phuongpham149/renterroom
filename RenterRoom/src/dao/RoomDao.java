@@ -212,6 +212,7 @@ public class RoomDao {
 			if (!"".equals(type)) {
 				sql+=" AND category.nameCategory like '%"+type.trim()+"%'";
 			}
+			sql+="  AND rooms.isActive = 1 AND rooms.isEmpty = 1";
 			cstmt = con.prepareCall(sql);
 			rs = cstmt.executeQuery();
 			while (rs.next()) {
@@ -229,5 +230,29 @@ public class RoomDao {
 		}
 		
 		return alRoom;
+	}
+
+	public ArrayList<Rooms> getListRoomByHost(int idUser) {
+		rooms = new ArrayList<Rooms>();
+		try {
+			con = Database.connectDB();
+			String query = "{CALL getListRoomByHost(?)}";
+			cstmt = con.prepareCall(query);
+			cstmt.setInt(1, idUser);
+			rs = cstmt.executeQuery();
+			while (rs.next()) {
+				room = new Rooms(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+						rs.getInt(5), rs.getString(6), rs.getInt(7),
+						rs.getDate(8), rs.getDate(9), rs.getInt(10),
+						rs.getString(11), rs.getString(12), rs.getString(13),
+						rs.getString(14), rs.getString(4));
+				rooms.add(room);
+			}
+		} catch (SQLException e) {
+			Database.closeConnection(this.con);
+			Database.closePrepareStatement(cstmt);
+			Database.closeResultSet(rs);
+		}
+		return rooms;
 	}
 }
