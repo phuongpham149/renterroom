@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import bean.Users;
 import bo.EmailUtility;
 import bo.UserBo;
+import dao.LibraryPer;
 
 /**
  * Servlet implementation class Admin_HostLockAction
@@ -33,8 +34,8 @@ public class Admin_HostLockAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
@@ -42,8 +43,14 @@ public class Admin_HostLockAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		LibraryPer lPermission = new LibraryPer();
+		if (!lPermission.isLogin(request, response)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
@@ -64,8 +71,7 @@ public class Admin_HostLockAction extends HttpServlet {
 
 				String to = user.getEmail();
 				String subject = "[RenterRoom] Notification to User";
-				String message = "Account " + user.getUsername()
-						+ " are locked by Admin website renterroom.com.";
+				String message = "Account " + user.getUsername() + " are locked by Admin website renterroom.com.";
 				String username = "chodoimotngaymai@gmail.com";
 				String password = "20122017bk";
 
@@ -73,8 +79,7 @@ public class Admin_HostLockAction extends HttpServlet {
 				String port = "465";
 
 				try {
-					EmailUtility.sendEmail(host, port, username, password, to,
-							subject, message);
+					EmailUtility.sendEmail(host, port, username, password, to, subject, message);
 				} catch (AddressException e) {
 					e.printStackTrace();
 				} catch (MessagingException e) {
@@ -82,15 +87,12 @@ public class Admin_HostLockAction extends HttpServlet {
 				}
 
 				// goi message
-				response.sendRedirect(request.getContextPath()
-						+ "/Admin_HostListAction?msg=1");
+				response.sendRedirect(request.getContextPath() + "/Admin_HostListAction?msg=1");
 			} else {
-				response.sendRedirect(request.getContextPath()
-						+ "/Admin_HostListAction?msg=0");
+				response.sendRedirect(request.getContextPath() + "/Admin_HostListAction?msg=0");
 			}
 		} else {
-			response.sendRedirect(request.getContextPath()
-					+ "/Admin_HostListAction?msg=0");
+			response.sendRedirect(request.getContextPath() + "/Admin_HostListAction?msg=0");
 		}
 	}
 

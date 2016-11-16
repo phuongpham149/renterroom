@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import bean.Booking;
 import bo.BookingBo;
 import bo.EmailUtility;
+import dao.LibraryPer;
 
 /**
  * Servlet implementation class Host_BookingContactAction
@@ -34,8 +35,8 @@ public class Host_BookingContactAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
@@ -43,8 +44,14 @@ public class Host_BookingContactAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		LibraryPer lPermission = new LibraryPer();
+		if (!lPermission.isLogin(request, response)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
@@ -59,8 +66,7 @@ public class Host_BookingContactAction extends HttpServlet {
 			String content = request.getParameter("content");
 
 			if (email != null) {
-				System.out
-						.println(subject.length() + " ab " + content.length());
+				System.out.println(subject.length() + " ab " + content.length());
 				if (subject.equals("")) {
 					error = true;
 				}
@@ -68,8 +74,7 @@ public class Host_BookingContactAction extends HttpServlet {
 					error = true;
 				}
 				if (error == true) {
-					response.sendRedirect(request.getContextPath()
-							+ "/Host_BookingListAction?msg=2");
+					response.sendRedirect(request.getContextPath() + "/Host_BookingListAction?msg=2");
 					return;
 				}
 				// goi email
@@ -80,8 +85,7 @@ public class Host_BookingContactAction extends HttpServlet {
 				String port = "465";
 
 				try {
-					EmailUtility.sendEmail(host, port, username, password,
-							email, subject, content);
+					EmailUtility.sendEmail(host, port, username, password, email, subject, content);
 				} catch (AddressException e) {
 					System.out.println("Eror address");
 				} catch (MessagingException e) {
@@ -89,12 +93,10 @@ public class Host_BookingContactAction extends HttpServlet {
 				}
 
 				// chuyen trang
-				response.sendRedirect(request.getContextPath()
-						+ "/Host_BookingListAction?msg=1");
+				response.sendRedirect(request.getContextPath() + "/Host_BookingListAction?msg=1");
 
 			} else {
-				response.sendRedirect(request.getContextPath()
-						+ "/Host_BookingListAction?msg=0");
+				response.sendRedirect(request.getContextPath() + "/Host_BookingListAction?msg=0");
 			}
 
 		} else {
@@ -107,8 +109,7 @@ public class Host_BookingContactAction extends HttpServlet {
 			Booking booking = bookingBo.getBookingDetail(idBooking);
 			request.setAttribute("booking", booking);
 
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/host/BookingContact.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/host/BookingContact.jsp");
 			rd.forward(request, response);
 		}
 	}

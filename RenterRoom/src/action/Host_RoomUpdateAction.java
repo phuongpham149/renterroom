@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.Rooms;
 import bo.RoomBo;
+import dao.LibraryPer;
 
 /**
  * Servlet implementation class RoomUpdateAction
@@ -29,8 +30,8 @@ public class Host_RoomUpdateAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
@@ -38,8 +39,13 @@ public class Host_RoomUpdateAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		LibraryPer lPermission = new LibraryPer();
+		if (!lPermission.isLogin(request, response)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
@@ -54,7 +60,7 @@ public class Host_RoomUpdateAction extends HttpServlet {
 		int isEmpty = roomBo.getIsEmpty(id).getIsEmpty();
 		objRoom.setIsEmpty(isEmpty == 1 ? 0 : 1);
 
-		roomBo.editIsEmptyRoom(objRoom.getIsEmpty(),id);
+		roomBo.editIsEmptyRoom(objRoom.getIsEmpty(), id);
 
 		response.sendRedirect(request.getContextPath() + "/Host_RoomListAction");
 	}

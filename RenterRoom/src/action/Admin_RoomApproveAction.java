@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bo.RoomBo;
+import dao.LibraryPer;
 
 /**
  * Servlet implementation class RoomUpdateAction
@@ -28,8 +29,8 @@ public class Admin_RoomApproveAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
@@ -37,8 +38,14 @@ public class Admin_RoomApproveAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		LibraryPer lPermission = new LibraryPer();
+		if (!lPermission.isLogin(request, response)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 
@@ -48,11 +55,9 @@ public class Admin_RoomApproveAction extends HttpServlet {
 		int check = roomBO.updateActiveRoom(idRoom);
 
 		if (check > 0) {
-			response.sendRedirect(request.getContextPath()
-					+ "/Admin_RoomListAction?msg=1");
+			response.sendRedirect(request.getContextPath() + "/Admin_RoomListAction?msg=1");
 		} else {
-			response.sendRedirect(request.getContextPath()
-					+ "/Admin_RoomListAction?msg=0");
+			response.sendRedirect(request.getContextPath() + "/Admin_RoomListAction?msg=0");
 		}
 	}
 

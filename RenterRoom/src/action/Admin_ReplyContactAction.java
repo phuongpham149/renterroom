@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import bean.Contact;
 import bo.ContactBo;
 import bo.EmailUtility;
+import dao.LibraryPer;
 
 /**
  * Servlet implementation class Admin_ReplyContact
@@ -33,8 +34,8 @@ public class Admin_ReplyContactAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
@@ -42,8 +43,13 @@ public class Admin_ReplyContactAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		LibraryPer lPermission = new LibraryPer();
+		if (!lPermission.isLogin(request, response)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 
@@ -59,19 +65,18 @@ public class Admin_ReplyContactAction extends HttpServlet {
 			String content = request.getParameter("content");
 
 			if (email != null) {
-				System.out.println(subject.length()+" ab "+content.length());
-				if(subject.equals("")){
+				System.out.println(subject.length() + " ab " + content.length());
+				if (subject.equals("")) {
 					error = true;
 				}
-				if(content.length()<=36){
-					error=true;
+				if (content.length() <= 36) {
+					error = true;
 				}
-				if(error==true){
-					response.sendRedirect(request.getContextPath()
-							+ "/Admin_ContactListAction?msg=2");
+				if (error == true) {
+					response.sendRedirect(request.getContextPath() + "/Admin_ContactListAction?msg=2");
 					return;
 				}
-				
+
 				// goi email
 				String username = "chodoimotngaymai@gmail.com";
 				String password = "20122017bk";
@@ -80,8 +85,7 @@ public class Admin_ReplyContactAction extends HttpServlet {
 				String port = "465";
 
 				try {
-					EmailUtility.sendEmail(host, port, username, password,
-							email, subject, content);
+					EmailUtility.sendEmail(host, port, username, password, email, subject, content);
 				} catch (AddressException e) {
 					System.out.println("Eror address");
 				} catch (MessagingException e) {
@@ -89,13 +93,10 @@ public class Admin_ReplyContactAction extends HttpServlet {
 				}
 
 				// chuyen trang
-				response.sendRedirect(request.getContextPath()
-						+ "/Admin_ContactListAction?msg=1");
-				
-			}
-			else{
-				response.sendRedirect(request.getContextPath()
-						+ "/Admin_ContactListAction?msg=0");
+				response.sendRedirect(request.getContextPath() + "/Admin_ContactListAction?msg=1");
+
+			} else {
+				response.sendRedirect(request.getContextPath() + "/Admin_ContactListAction?msg=0");
 			}
 
 		} else {
@@ -113,8 +114,7 @@ public class Admin_ReplyContactAction extends HttpServlet {
 
 			request.setAttribute("contact", contact);
 
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/admin/ContactReply.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/admin/ContactReply.jsp");
 			rd.forward(request, response);
 		}
 	}

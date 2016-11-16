@@ -98,6 +98,8 @@ public class LoginAction extends HttpServlet {
 					}
 					if (role == 2) {
 						// chuyen den user
+						response.sendRedirect(request.getContextPath()
+								+ "/Public_RoomListAction");
 					}
 				} else {
 					response.sendRedirect(request.getContextPath()
