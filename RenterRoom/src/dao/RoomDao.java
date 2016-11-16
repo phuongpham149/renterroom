@@ -203,9 +203,9 @@ public class RoomDao {
 				}else if("700".equals(cost)){
 					sql += " AND cost between 500 AND 700";
 				}else if (cost.equals("1000")) {
-					cost += " and cost between 700 AND 1000";
+					sql += " and cost between 700 AND 1000";
 				}else if("1001".equals(cost)){
-					cost += " and cost > 1000";
+					sql += " and cost > 1000";
 				}
 				
 			}
@@ -214,7 +214,6 @@ public class RoomDao {
 			}
 			cstmt = con.prepareCall(sql);
 			rs = cstmt.executeQuery();
-			System.out.println(sql);
 			while (rs.next()) {
 				newRoom = new Rooms(rs.getInt(1), rs.getInt(2), rs.getInt(3),
 						rs.getInt(5), rs.getString(6), rs.getInt(7),

@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>The Paradise-Hotel Website Template | Hotel :: w3layouts</title>
+<title>Tìm kiếm phòng trọ</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
@@ -64,7 +64,7 @@
 <div class="wrap">
 	<div class="header">
 		<div class="logo">
-			<a href="index.html"><img src="<%=request.getContextPath()%>/templates/public/images/logo5.png" alt=""></a>
+			<a href="<%= request.getContextPath()%>/Public_RoomListAction"><img src="<%=request.getContextPath()%>/templates/public/images/logo5.png" alt=""></a>
 		</div>
 		<div class="h_right">
 			<!--start menu -->

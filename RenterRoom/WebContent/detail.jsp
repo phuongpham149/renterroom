@@ -161,18 +161,18 @@
 		<div class="details">
 		<%
 			Rooms alRooms=(Rooms)request.getAttribute("alRooms");
-				
+		String pathFile = request.getContextPath() + "/files/" + alRooms.getImage();
 		%>
 			<h2><%=alRooms.getNameRoom() %></h2>
 			<div class="det_pic">
-				  <img style="width:46%;" src="<%=request.getContextPath()%>/templates/public/images/det_pic.jpg" alt="" />
+				  <img style="width:46%;" src="<%=pathFile%>" alt="" />
 				  <input id="pac-input" class="controls" type="hidden" placeholder="Search Box" value="<%=alRooms.getAddress()%>">
 				  <div id="map" ></div>
 			</div>
 			<div class="det_text">
-				<p class="para">Địa điểm: <span><%=alRooms.getStreet() %>g</span> </p>
+				<p class="para">Địa điểm: <span><%=alRooms.getStreet() %></span> </p>
 				<p class="para"><%=alRooms.getDescription() %> </p>
-				<p class="para">Tiền phòng: <span><%=alRooms.getCost() %> VNĐ</span> </p>
+				<p class="para">Tiền phòng: <span><%=alRooms.getCost() %>.000 VNĐ</span> </p>
 				<p class="para">Thời gian cập nhật: <span><%=DateUtils.formatDate(alRooms.getTimeCreated())%></span></p>
 				<div class="read_more">
 					 <a href="<%=request.getContextPath()%>/Public_BookingRoom?idRoom=<%=alRooms.getIdRoom()%>" name="submit">Đặt phòng</a>
