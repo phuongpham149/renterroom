@@ -27,6 +27,7 @@
 					    	<div>
 						    	<span><label>Tên phòng</label></span>
 						    	<span><input name="userName" type="text" class="textbox" value="<%=room.getNameRoom()%>" disabled="disabled"></span>
+						    	<input name="roomId" type="hidden" class="textbox" value="<%=room.getIdRoom()%>">
 						    </div>
 						    <div>
 						    	<span><label>Địa chỉ</label></span>
