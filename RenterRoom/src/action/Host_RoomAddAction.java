@@ -24,6 +24,7 @@ import FileUtils.DateUtils;
 import bean.Rooms;
 import bo.CatBo;
 import bo.RoomBo;
+import dao.LibraryPer;
 
 /**
  * Servlet implementation class Host_RoomAddAction
@@ -54,6 +55,12 @@ public class Host_RoomAddAction extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		LibraryPer lPermission = new LibraryPer();
+		if (!lPermission.isLogin(request, response)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
