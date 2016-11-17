@@ -1,3 +1,4 @@
+<%@page import="FileUtils.DateUtils"%>
 <%@page import="bean.Booking"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -64,7 +65,7 @@
         					<td><%=obj.getAddress() %></td>
         					<td>R<%=obj.getIdRoom() %></td>
         					<td><%=obj.getNote() %></td>
-        					<td><%=obj.getTimeCreated() %></td>
+        					<td><%=DateUtils.formatDate(obj.getTimeCreated())%></td>
         					<td>
         					<%
         					if(obj.getIdStatus() ==2 ){%>

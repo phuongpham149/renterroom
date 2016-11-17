@@ -38,6 +38,9 @@ public class Public_ContactDetailAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
 		int idRoom=Integer.parseInt(request.getParameter("idRoom"));
 		RoomBo roomBo=new RoomBo();
 		Rooms alRooms=roomBo.getRoomDetail(idRoom);

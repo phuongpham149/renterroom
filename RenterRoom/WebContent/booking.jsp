@@ -35,7 +35,7 @@
 						    </div>
 						    <div>
 						     	<span><label>Giá phòng</label></span>
-						    	<span><input name="userPhone" type="text" class="textbox" value="<%=room.getCost()%>" disabled="disabled"></span>
+						    	<span><input name="userPhone" type="text" disabled="disabled" class="textbox" value="<%=room.getCost()%>.000VNĐ" ></span>
 						    </div>
 						    <div>
 						    	<span><label>Ghi chú</label></span>

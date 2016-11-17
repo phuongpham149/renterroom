@@ -15,10 +15,6 @@
 		                <!-- Texts container -->
 		                <div class="slide_content">
 		                    <div class="slide_content_wrap">
-		                        <!-- Text title -->
-		                        <h4 class="title"><i class="bg"></i>Lorem Ipsum is simply <span class="hide">dummy text</span></h4>
-		                        <h5 class="title1"><i class="bg"></i>Morbi justo <span class="hide" >condimentum accumsan</span></h5>
-		                        <!-- /Text title -->
 		                    </div>
 		                </div>
 		                 <!-- /Texts container -->
@@ -28,10 +24,6 @@
 		                <img src="<%=request.getContextPath()%>/templates/public/images/slider-bg.jpg" alt=""/>
 		                <div class="slide_content">
 		                     <div class="slide_content_wrap">
-		                        <!-- Text title -->
-		                        <h4 class="title"><i class="bg"></i>Morbi justo <span class="hide"> condimentum </span>text</h4>
-		                        <h5 class="title1"><i class="bg"></i>Lorem Ipsum is <span class="hide">simply dummy text</span> </h5>
-		                        <!-- /Text title -->
 		                    </div>
 		                </div>
 		            </div>
